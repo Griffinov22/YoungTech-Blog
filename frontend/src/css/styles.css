@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wdth,wght@1,62.5..100,472&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --header-font: "Noto Serif", serif;
+  --body-font: "Raleway", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--header-font);
+}
+
+*:not(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--body-font);
+  font-weight: 600;
+}
+
+input {
+  font-family: inherit;
+}

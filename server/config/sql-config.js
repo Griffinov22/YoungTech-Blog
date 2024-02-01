@@ -1,41 +1,16 @@
-var Connection = require("tedious").Connection;
-var Request = require("tedious").Request;
+const sql = require("mssql");
 require("dotenv").config();
-// var TYPES = require("tedious").TYPES;
 
-var config = {
-  server: String(process.env.SERVER_NAME), //update me
+module.exports = {
+  user: String(process.env.USER), // better stored in an app setting such as process.env.DB_USER
+  password: String(process.env.PASSWORD), // better stored in an app setting such as process.env.DB_PASSWORD
+  server: String(process.env.SERVER_NAME), // better stored in an app setting such as process.env.DB_SERVER
+  port: 1433, // optional, defaults to 1433, better stored in an app setting such as process.env.DB_PORT
+  database: String(process.env.DATABASE_NAME), // better stored in an app setting such as process.env.DB_NAME
   authentication: {
     type: "default",
-    options: {
-      userName: String(process.env.USERNAME), //update me
-      password: String(process.env.PASSWORD), //update me
-    },
   },
   options: {
-    // If you are on Microsoft Azure, you need encryption:
     encrypt: true,
-    database: process.env.DATABASE_NAME, //update me
-    // rowCollectionOnDone: true,
   },
 };
-var connection = new Connection(config);
-connection.on("connect", function (err) {
-  // If no error, then good to proceed.
-  if (err) {
-    console.log(err);
-    return;
-  }
-  console.log("Connected");
-  getAllTodos();
-});
-
-// call connection.connect(); before running queries against db
-connection.connect();
-function getAllTodos() {
-  const request = new Request("SELECT * FROM todos", (err, rowCount, rows) => {
-    console.log(rows);
-  });
-}
-
-module.exports = { Request };
