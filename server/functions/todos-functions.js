@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const config = require("../config/sql-config");
-// const image = require("../assets/static-logo.png");
+const fs = require("fs");
 
 //testing
 // getAllPosts();
@@ -104,16 +104,41 @@ async function updatePost(id, title, body) {
 
 module.exports = { getAllPosts, getSinglePostById, deleteSinglePostById, createPost, updatePost };
 
-insertImage();
-
+//proof of concepts -----------------------------------------------------------
 async function insertImage() {
-  //read file
-  //
+  let base64_image;
+  fs.readFile(__dirname + "/../" + "assets/" + "static-logo.png", "binary", async (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
 
-  const res = await poolConnection
+    //success
+    base64_image = Buffer.from(data);
+
+    const poolConnection = await sql.connect(config);
+    const res = await poolConnection
+      .request()
+      .input("base64_image", sql.VarBinary, base64_image)
+      .query(`INSERT INTO BlogImages (PostId, ImageData) VALUES (1, @base64_image)`);
+
+    console.log("successfully inserted image");
+  });
+}
+
+async function readImage() {
+  const poolConnection = await sql.connect(config);
+  const { recordset } = await poolConnection
     .request()
-    .input("binaryImage", sql.Binary, decodedImage)
-    .query(`INSERT INTO BlogImages (PostId, ImageData) VALUES (1, @binaryImage)`);
+    .query(`SELECT ImageData FROM BlogImages WHERE PostId = 1`);
 
-  console.log("successfully inserted image");
+  const buffer = Buffer.from(recordset[0].ImageData, "base64");
+  fs.writeFile(__dirname + "/../assets/newImage.png", buffer, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("successfully created image");
+  });
 }
