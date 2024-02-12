@@ -4,11 +4,12 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import Root from "./layout/Root";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<div>I am root</div>}>
+      <Route path="/" element={<Root />}>
         <Route index element={<div>I am home</div>} />
       </Route>
     )
