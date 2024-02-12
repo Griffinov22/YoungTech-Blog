@@ -7,9 +7,9 @@ const Root = () => {
   return (
     <div className=" d-flex flex-column" style={{ minHeight: "100vh" }}>
       <NavBar />
-      <div className="flex-grow-1">
+      <main className="flex-grow-1 wrapper py-3">
         <Outlet />
-      </div>
+      </main>
       <Footer />
     </div>
   );

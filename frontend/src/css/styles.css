@@ -1,32 +1,92 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wdth,wght@1,62.5..100,472&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
-
 :root {
-  --header-font: "Noto Serif", serif;
-  --body-font: "Raleway", sans-serif;
+  /* font family */
+  --ff: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Open Sans", "Helvetica Neue", sans-serif;
+  /* font size */
+  --fs-sm: 1.2rem;
+  --fs-md: 1.6rem;
+  --fs-lg: 2.5rem;
+  /* font weight */
+  --fw-sm: 500;
+  --fw-md: 600;
+  --fw-lg: 800;
+  /* colors */
+  --text-white: whitesmoke;
+  --text-white-hov: rgb(189, 188, 188);
+  --bg-black: #000;
+  /* dividers */
+  --section-divider: 8rem;
+  --wrapper-max: 1200px;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  padding: 0;
+  /* margin: 0; */
+}
+
+html {
+  font-family: var(--ff);
+}
+
+body {
   margin: 0;
+  font-size: var(--fs-sm);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--header-font);
+img,
+picture {
+  width: auto !important;
+  max-width: 100%;
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-*:not(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--body-font);
-  font-weight: 600;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-input {
-  font-family: inherit;
+/* default text */
+
+h1 {
+  font-size: var(--fs-lg);
+  text-shadow: 1px 1px 48px whitesmoke;
+}
+h2 {
+  font-size: var(--fs-md);
+}
+p {
+  line-height: 1.5;
+  max-width: 70ch;
+}
+
+/* layout */
+.container_row-gap > :not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: var(--wrapper-max);
+  margin-inline: auto !important;
+}
+
+.logo {
+  width: 32px !important;
+}
+
+.card_overflow-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.call-grid img {
+  width: 84px !important;
 }

@@ -5,12 +5,13 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Root from "./layout/Root";
+import Landing from "./pages/Landing";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        <Route index element={<div>I am home</div>} />
+        <Route index element={<Landing />} />
       </Route>
     )
   );
