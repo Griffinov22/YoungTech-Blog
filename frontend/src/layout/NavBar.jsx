@@ -19,7 +19,7 @@ const NavBar = () => {
           </Link>
         </li>
         <li>
-          <Link to="#">My Life</Link>
+          <Link to="#">Post Archive</Link>
         </li>
         <li>
           <Link to="#">
