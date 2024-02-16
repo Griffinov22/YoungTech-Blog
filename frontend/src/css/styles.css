@@ -74,6 +74,12 @@ p {
   max-width: var(--wrapper-max);
   margin-inline: auto !important;
 }
+/* fix media query if change var(--wrapper-max) */
+@media (width < 1200px) {
+  .wrapper {
+    padding-inline: 2rem;
+  }
+}
 
 .logo {
   width: 32px !important;
