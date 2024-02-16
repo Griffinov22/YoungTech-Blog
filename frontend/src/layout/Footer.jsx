@@ -8,6 +8,8 @@ import logo from "../assets/logo.svg";
 import { useState, useEffect } from "react";
 
 const Footer = () => {
+  const [hoveredBtn, setHoveredBtn] = useState(false);
+
   const { instance } = useMsal();
   const isAuthenticated = useIsAuthenticated();
 
@@ -27,22 +29,8 @@ const Footer = () => {
 
   return (
     <div className={"d-flex justify-content-between align-content-center py-2 px-4 bg-black"}>
-      <img src={logo} alt="logo" className="logo" />
-      <div className="d-flex column-gap-2 align-items-center">
-        <AuthenticatedTemplate>
-          <p className="fst-italic text-white">{username}</p>
-        </AuthenticatedTemplate>
-        <AuthenticatedTemplate>
-          <button className="btn btn-dark" onClick={signOut}>
-            Manager Sign-out
-          </button>
-        </AuthenticatedTemplate>
-        <UnauthenticatedTemplate>
-          <button className="btn btn-dark" onClick={signIn}>
-            Manager Sign-in
-          </button>
-        </UnauthenticatedTemplate>
-      </div>
+      <img src={logo} alt="logo" className="logo-img" />
+      <button className="sigin-button">Manager Sign-in</button>
     </div>
   );
 };
