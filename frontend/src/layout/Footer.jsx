@@ -31,7 +31,6 @@ const Footer = () => {
     if (accounts.length > 0) {
       const { name, username } = accounts[0];
       setuserName(name ?? username);
-      instance.setActiveAccount(accounts[0]);
     }
   });
 

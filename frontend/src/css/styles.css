@@ -48,6 +48,12 @@ picture {
 a {
   color: inherit;
   text-decoration: none;
+  transition: all 200ms ease-in-out;
+}
+
+.nav-link:hover,
+.auth-link:hover {
+  opacity: 50%;
 }
 
 /* default text */
@@ -95,4 +101,8 @@ p {
 
 .call-grid img {
   width: 84px !important;
+}
+
+/* /posts page */
+.posts-table {
 }
