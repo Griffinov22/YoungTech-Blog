@@ -31,7 +31,11 @@ app.get("/posts/delete/:id", async ({ params }, res) => {
   res.send(isSuccessful);
 });
 
-//THIS IS A POST!!
+app.post("/posts", async ({ body }, res) => {
+  const isSuccessful = await createPost(body.title, body.body);
+  res.send(isSuccessful);
+});
+//Update post
 app.post("/posts/update/:id?", async ({ body, params }, res) => {
   const isSuccessful = await updatePost(params.id, body.title, body.body);
   res.send(isSuccessful);
