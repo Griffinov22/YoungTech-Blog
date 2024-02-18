@@ -15,10 +15,9 @@ async function getAllPosts() {
     const { recordset } = await poolConnection.request().query(`SELECT * FROM Blogs`);
 
     // [{...},{...}]
-    console.log(recordset);
     return recordset;
   } catch (err) {
-    return { message: "error retrieving documents" };
+    return { message: "error retrieving documents", error: err };
   }
 }
 
