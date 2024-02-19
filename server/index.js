@@ -30,8 +30,10 @@ app.get("/posts/delete/:id", async ({ params }, res) => {
   const isSuccessful = await deleteSinglePostById(params.id);
   res.send(isSuccessful);
 });
-
+//create a post
 app.post("/posts", async ({ body }, res) => {
+  //todo: handle image input to server through http request
+  const image = body.image;
   const isSuccessful = await createPost(body.title, body.body);
   res.send(isSuccessful);
 });

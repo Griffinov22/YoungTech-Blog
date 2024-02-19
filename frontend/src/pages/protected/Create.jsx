@@ -17,11 +17,25 @@ const Create = () => {
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
+
+    // gather data
     const { title, body } = postData;
+    const imageInput = e.target.imageInput.files;
+    let hasImage = false;
+
+    // check if there is an image
+    if (imageInput.length === 1) {
+      hasImage = true;
+    } else if (imageInput.length > 1) {
+      throw Error("too many images were provided");
+    }
+    console.log({ ...(hasImage && { image: imageInput[0] }) });
+
     if (title && body) {
       Axios.post(`${import.meta.env.VITE_BASE_URL}/posts`, {
         title,
         body,
+        ...(hasImage && { image: imageInput[0] }),
       }).then((result) => {
         // backend is configured to return true is successful
         if (result.data == true) {
@@ -40,8 +54,6 @@ const Create = () => {
     }, 3000);
   };
 
-  console.log(success);
-
   return (
     <div className="container container_row-gap position-relative">
       <h1 className=" fw-bolder">Create Post</h1>
@@ -59,7 +71,7 @@ const Create = () => {
       <form className=" form-check" onSubmit={handleSubmitPost}>
         <div className="mb-3">
           <label htmlFor="title" className="fw-semibold fs-5 d-block form-label">
-            Title
+            Title <span className=" text-danger">*</span>
           </label>
           <input
             required
@@ -72,8 +84,14 @@ const Create = () => {
           />
         </div>
         <div className="mb-3">
+          <label htmlFor="imageInput" className="fw-semibold fs-5 d-block form-label">
+            Upload an image
+          </label>
+          <input type="file" name="imageInput" id="imageInput" className="form-control fw-medium" />
+        </div>
+        <div className="mb-3">
           <label htmlFor="body" className="fw-semibold fs-5 d-block form-label">
-            Content
+            Content <span className=" text-danger">*</span>
           </label>
           <textarea
             required
