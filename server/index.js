@@ -10,9 +10,6 @@ const {
 } = require("./functions/todos-functions");
 const app = express();
 
-//db
-const { Request } = require("./config/sql-config");
-
 app.use(cors());
 app.use(express.json());
 
@@ -29,6 +26,7 @@ app.get("/posts/:id", async ({ params }, res) => {
 app.get("/posts/delete/:id", async ({ params }, res) => {
   const isSuccessful = await deleteSinglePostById(params.id);
   res.send(isSuccessful);
+  console.log("hello");
 });
 //create a post
 app.post("/posts", async ({ body }, res) => {

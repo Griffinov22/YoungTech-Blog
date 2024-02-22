@@ -7,7 +7,7 @@ const Posts = () => {
   // const isAuthenticated = useIsAuthenticated();
   const navigate = useNavigate();
   const { instance } = useMsal();
-  const [posts, setPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Posts = () => {
 
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts`).then((result) => {
       if (result.status == 200) {
-        setPosts(result.data);
+        setBlogPosts(result.data);
         setError(false);
       } else {
         setError(true);
@@ -38,7 +38,7 @@ const Posts = () => {
 
   return (
     <div className="container container_row-gap">
-      {posts.length > 0 && (
+      {blogPosts.length > 0 ? (
         <table className="m-auto table" style={{ minWidth: "50vw !important" }}>
           <thead className="table-dark">
             <tr>
@@ -49,7 +49,7 @@ const Posts = () => {
             </tr>
           </thead>
           <tbody>
-            {posts.map((post, ind) => {
+            {blogPosts.map((post, ind) => {
               // prefer to show the updated date or default to the date the post was initially created
               let postDate = post.dateUpdated ?? post.dateCreated;
 
@@ -64,6 +64,8 @@ const Posts = () => {
             })}
           </tbody>
         </table>
+      ) : (
+        <h2 className="text-center">There was an error getting posts</h2>
       )}
     </div>
   );
