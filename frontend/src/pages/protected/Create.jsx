@@ -29,16 +29,20 @@ const Create = () => {
     } else if (imageInput.length > 1) {
       throw Error("too many images were provided");
     }
-    console.log({ ...(hasImage && { image: imageInput[0] }) });
 
     if (title && body) {
-      Axios.post(`${import.meta.env.VITE_BASE_URL}/posts`, {
-        title,
-        body,
-        ...(hasImage && { image: imageInput[0] }),
-      }).then((result) => {
+      Axios.post(
+        `${import.meta.env.VITE_BASE_URL}/posts`,
+        {
+          title,
+          body,
+          ...(hasImage && { image: imageInput[0] }),
+        },
+        { headers: { "Content-Type": "multipart/form-data" } }
+      ).then((result) => {
         // backend is configured to return true is successful
-        if (result.data == true) {
+        console.log(result.data);
+        if (!result.data.error) {
           showSuccess();
         }
       });

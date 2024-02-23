@@ -1,6 +1,8 @@
 const sql = require("mssql");
 const config = require("../config/sql-config");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+const { addPicToBlobContainer } = require("./blob-functions");
 
 //testing
 // getAllPosts();
@@ -53,7 +55,7 @@ async function deleteSinglePostById(id) {
   }
 }
 
-async function createPost(title, body) {
+async function createPostWithoutImage(title, body) {
   //title and body are required and must be of type string
 
   if (typeof title !== "string" && typeof body !== "string")
@@ -77,6 +79,37 @@ async function createPost(title, body) {
   }
 }
 
+async function createPostWithImage(title, body, imageFile) {
+  //title and body are required and must be of type string
+
+  if (typeof title !== "string" && typeof body !== "string")
+    return { message: "title or body not of type string" };
+  if (title == undefined || body == undefined) return { message: "title or body is missing" };
+
+  try {
+    const poolConnection = await sql.connect(config);
+
+    // GUID + . (extention name)
+    const imageName = uuidv4() + "." + imageFile.name.split(".")[1];
+
+    // add image to blob container with same name as one stored in sql db
+    await addPicToBlobContainer(imageFile, imageName);
+
+    const res = await poolConnection
+      .request()
+      .input("title", sql.VarChar(255), title)
+      .input("body", sql.VarChar(255), body)
+      .input("pictureName", sql.VarChar(100), imageName)
+      .query(`INSERT INTO Blogs (title, body, pictureName) VALUES (@title, @body, @pictureName)`);
+
+    //rowsAffected will have an array of one integer that
+    //represents the amount of rows modified if the query is successful
+    return res.rowsAffected[0] > 0;
+  } catch (err) {
+    return { message: "error inserting document" };
+  }
+}
+
 async function updatePost(id, title, body) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
@@ -90,7 +123,6 @@ async function updatePost(id, title, body) {
       .request()
       .input("title", sql.VarChar(255), title)
       .input("body", sql.VarChar(255), body)
-      .input("id", sql.Int, id)
       .query(`UPDATE Blogs SET title = @title, body = @body WHERE id = @id`);
 
     //rowsAffected will have an array of one integer that
@@ -101,7 +133,14 @@ async function updatePost(id, title, body) {
   }
 }
 
-module.exports = { getAllPosts, getSinglePostById, deleteSinglePostById, createPost, updatePost };
+module.exports = {
+  getAllPosts,
+  getSinglePostById,
+  deleteSinglePostById,
+  createPostWithoutImage,
+  updatePost,
+  createPostWithImage,
+};
 
 //proof of concepts -----------------------------------------------------------
 async function insertImage() {

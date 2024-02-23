@@ -1,17 +1,20 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 require("dotenv").config({ path: __dirname + "/.env" });
 const {
   getAllPosts,
   getSinglePostById,
   deleteSinglePostById,
-  createPost,
+  createPostWithoutImage,
+  createPostWithImage,
   updatePost,
 } = require("./functions/todos-functions");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 app.get("/posts", async (req, res) => {
   const posts = await getAllPosts();
@@ -26,14 +29,27 @@ app.get("/posts/:id", async ({ params }, res) => {
 app.get("/posts/delete/:id", async ({ params }, res) => {
   const isSuccessful = await deleteSinglePostById(params.id);
   res.send(isSuccessful);
-  console.log("hello");
 });
 //create a post
-app.post("/posts", async ({ body }, res) => {
-  //todo: handle image input to server through http request
-  const image = body.image;
-  const isSuccessful = await createPost(body.title, body.body);
-  res.send(isSuccessful);
+app.post("/posts", async ({ body, files }, res) => {
+  if (files != null) {
+    // check if file is of type image and only one file
+
+    //errors are caught in function
+
+    if (Object.keys(files).length !== 1) {
+      res.send({ message: "Only one image is allowed to be submitted", error: true });
+    } else if (!files.image.mimetype.startsWith("image/")) {
+      res.send({ message: "File must be of type image", error: true });
+    }
+    // successfull image received
+    await createPostWithImage(body.title, body.body, files.image);
+  } else {
+    // there is no image
+    await createPostWithoutImage(body.title, body.body);
+  }
+
+  res.send({ message: "successfully created post", error: false });
 });
 //Update post
 app.post("/posts/update/:id?", async ({ body, params }, res) => {

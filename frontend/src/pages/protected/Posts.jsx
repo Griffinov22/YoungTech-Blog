@@ -46,6 +46,7 @@ const Posts = () => {
               <th scope="col">Title</th>
               <th scope="col">Body</th>
               <th scope="col">Date</th>
+              <th scope="col">PictureName</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +60,7 @@ const Posts = () => {
                   <td>{post.title}</td>
                   <td>{post.body}</td>
                   <td>{formatDate(postDate)}</td>
+                  <td>{post.pictureName}</td>
                 </tr>
               );
             })}
