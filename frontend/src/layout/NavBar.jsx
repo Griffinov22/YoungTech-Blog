@@ -13,7 +13,7 @@ const NavBar = () => {
         </li>
         <AuthenticatedTemplate>
           <li>
-            <Link to="posts/create" className="text-warning fw-bold auth-link">
+            <Link to="/posts/create" className="text-warning fw-bold auth-link">
               Make Post
             </Link>
           </li>

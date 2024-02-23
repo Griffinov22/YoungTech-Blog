@@ -1,6 +1,7 @@
 import { useMsal } from "@azure/msal-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../helpers/helperFunctions";
 import Axios from "axios";
 
 const Posts = () => {
@@ -24,17 +25,6 @@ const Posts = () => {
       }
     });
   }, [instance]);
-
-  // format date
-  const formatDate = (inputDate) => {
-    const date = new Date(inputDate);
-    const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    return date.toLocaleString("en-US", options);
-  };
 
   return (
     <div className="container container_row-gap">
@@ -68,9 +58,7 @@ const Posts = () => {
           </tbody>
         </table>
       ) : (
-        <p className="text-center fw-semibold" style={{ maxWidth: "none" }}>
-          Loading...
-        </p>
+        <p className="text-center fw-semibold">Loading...</p>
       )}
     </div>
   );

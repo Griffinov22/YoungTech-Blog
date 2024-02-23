@@ -20,13 +20,11 @@ async function getAllPosts() {
       recordset.map(async (obj) => {
         if (obj.pictureName != null) {
           const imageBuffer = await readBlobFromContainer(obj.pictureName);
-          console.log(imageBuffer);
+          const extension = obj.pictureName.split(".")[1];
+          const base64 = imageBuffer.toString("base64");
           return {
             ...obj,
-            pictureData: {
-              data: imageBuffer.toString("base64"),
-              extension: obj.pictureName.split(".")[1],
-            },
+            pictureData: `data:image/${extension};base64,${base64}`,
           };
         }
         // if getting the image causes an error, just return the post without the image.
@@ -49,6 +47,18 @@ async function getSinglePostById(id) {
       .input("id", sql.Int, id)
       .query(`SELECT * FROM Blogs WHERE id = @id`);
 
+    // add image data if available
+    if (recordset[0].pictureName != null) {
+      const imageBuffer = await readBlobFromContainer(recordset[0].pictureName);
+      const extension = recordset[0].pictureName.split(".")[1];
+      const base64 = imageBuffer.toString("base64");
+      return {
+        ...recordset[0],
+        pictureData: `data:image/${extension};base64,${base64}`,
+      };
+    }
+
+    //return post data if no image is attached to the post
     return recordset;
   } catch (err) {
     return { message: "error retrieving document" };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 const PostArchive = () => {
   const [posts, setPosts] = useState([]);
@@ -20,7 +21,7 @@ const PostArchive = () => {
 
   const errorMessage = (
     <div className="w-100">
-      <p className="text-center text-danger fw-bold" style={{ maxWidth: "none" }}>
+      <p className="text-center text-danger fw-bold">
         There was an error getting the posts. Try again later
       </p>
     </div>
@@ -39,18 +40,14 @@ const PostArchive = () => {
                 <img
                   className="card-img-top"
                   style={{ width: "200px", height: "225px", objectFit: "cover" }}
-                  src={
-                    obj.pictureData
-                      ? `data:image/${obj.pictureData.extension};base64,${obj.pictureData.data}`
-                      : "https://placehold.co/200x100"
-                  }
+                  src={obj.pictureData ?? "https://placehold.co/200x100"}
                   alt="Card image cap"
                 />
                 <div className="card-body">
                   <h5 className="card-title mb-4">{obj.title}</h5>
-                  <a href="#" className="btn btn-primary">
+                  <Link to={`/posts/${obj.Id}`} className="btn btn-primary">
                     See Full Post
-                  </a>
+                  </Link>
                 </div>
               </div>
             );

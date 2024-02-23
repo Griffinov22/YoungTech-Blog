@@ -67,7 +67,6 @@ h2 {
 }
 p {
   line-height: 1.5;
-  max-width: 70ch;
 }
 
 /* layout */
@@ -109,4 +108,23 @@ p {
   /* width: clamp(800px, 75%, 1200px); */
   grid-template-columns: repeat(3, 1fr);
   gap: 5rem;
+}
+
+/* post page */
+.post-image-container {
+  width: 100%;
+}
+.post-image {
+  display: block !important;
+  max-height: 350px;
+  object-fit: cover;
+  margin-inline: auto !important;
+  border-radius: 10px;
+}
+
+.body-text {
+  text-indent: 4ch;
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  line-height: 2;
 }
