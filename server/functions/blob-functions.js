@@ -12,9 +12,7 @@ async function addPicToBlobContainer(imageFile, fileName) {
 }
 
 async function readBlobFromContainer(fileName) {
-  const blockBlobClient = containerClient.getBlockBlobClient(
-    "c21c4171-9624-49ea-8b1b-c7c348c68621.jpg"
-  );
+  const blockBlobClient = containerClient.getBlockBlobClient(fileName);
   const imageFile = await blockBlobClient.exists();
   if (imageFile) {
     try {
@@ -42,6 +40,4 @@ async function streamToBuffer(readableStream) {
   });
 }
 
-readBlobFromContainer();
-
-module.exports = { addPicToBlobContainer };
+module.exports = { addPicToBlobContainer, readBlobFromContainer };

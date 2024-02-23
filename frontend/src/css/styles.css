@@ -103,6 +103,10 @@ p {
   width: 84px !important;
 }
 
-/* /posts page */
-.posts-table {
+/* archive posts page */
+.archive-grid {
+  display: grid;
+  /* width: clamp(800px, 75%, 1200px); */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5rem;
 }

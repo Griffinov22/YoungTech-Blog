@@ -38,6 +38,7 @@ const Posts = () => {
 
   return (
     <div className="container container_row-gap">
+      {error && <h2 className="text-center">There was an error getting posts</h2>}
       {blogPosts.length > 0 ? (
         <table className="m-auto table" style={{ minWidth: "50vw !important" }}>
           <thead className="table-dark">
@@ -67,7 +68,9 @@ const Posts = () => {
           </tbody>
         </table>
       ) : (
-        <h2 className="text-center">There was an error getting posts</h2>
+        <p className="text-center fw-semibold" style={{ maxWidth: "none" }}>
+          Loading...
+        </p>
       )}
     </div>
   );

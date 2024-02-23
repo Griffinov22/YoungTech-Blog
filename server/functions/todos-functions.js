@@ -2,7 +2,7 @@ const sql = require("mssql");
 const config = require("../config/sql-config");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
-const { addPicToBlobContainer } = require("./blob-functions");
+const { addPicToBlobContainer, readBlobFromContainer } = require("./blob-functions");
 
 //testing
 // getAllPosts();
@@ -16,8 +16,25 @@ async function getAllPosts() {
     const poolConnection = await sql.connect(config);
     const { recordset } = await poolConnection.request().query(`SELECT * FROM Blogs`);
 
+    const recordsWithImages = await Promise.all(
+      recordset.map(async (obj) => {
+        if (obj.pictureName != null) {
+          const imageBuffer = await readBlobFromContainer(obj.pictureName);
+          console.log(imageBuffer);
+          return {
+            ...obj,
+            pictureData: {
+              data: imageBuffer.toString("base64"),
+              extension: obj.pictureName.split(".")[1],
+            },
+          };
+        }
+        // if getting the image causes an error, just return the post without the image.
+        return obj;
+      })
+    );
     // [{...},{...}]
-    return recordset;
+    return recordsWithImages;
   } catch (err) {
     return { message: "error retrieving documents", error: err };
   }
