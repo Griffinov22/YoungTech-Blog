@@ -36,7 +36,7 @@ const Landing = () => {
           alt="Card image cap"
         />
         <div className="card-body">
-          <h5 className="card-title">{obj.title}</h5>
+          <h5 className="card-title card_overflow-2">{obj.title}</h5>
           <Link to={`/posts/${obj.Id}`} className="btn btn-primary">
             See Full Post
           </Link>

@@ -97,6 +97,13 @@ p {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.row-ellipsis-3 p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .call-grid img {
   width: 84px !important;

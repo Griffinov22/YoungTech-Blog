@@ -46,12 +46,22 @@ const Posts = () => {
               let postDate = post.dateUpdated ?? post.dateCreated;
 
               return (
-                <tr key={ind}>
-                  <td>{post.Id}</td>
-                  <td>{post.title}</td>
-                  <td>{post.body}</td>
-                  <td>{formatDate(postDate)}</td>
-                  <td>{post.pictureName}</td>
+                <tr key={ind} className="row-ellipsis-3">
+                  <td className=" border-end">
+                    <p className=" fw-bold">{post.Id}</p>
+                  </td>
+                  <td>
+                    <p>{post.title}</p>
+                  </td>
+                  <td>
+                    <p>{post.body}</p>
+                  </td>
+                  <td>
+                    <p>{formatDate(postDate)}</p>
+                  </td>
+                  <td>
+                    <p>{post.pictureName}</p>
+                  </td>
                 </tr>
               );
             })}
