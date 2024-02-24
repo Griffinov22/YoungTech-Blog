@@ -3,7 +3,7 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 require("dotenv").config({ path: __dirname + "/.env" });
 const {
-  getAllPosts,
+  getPosts,
   getSinglePostById,
   deleteSinglePostById,
   createPostWithoutImage,
@@ -17,7 +17,12 @@ app.use(express.json());
 app.use(fileUpload());
 
 app.get("/posts", async (req, res) => {
-  const posts = await getAllPosts();
+  const posts = await getPosts();
+  res.send(posts);
+});
+
+app.post("/posts/recent", async ({ body }, res) => {
+  const posts = await getPosts(body.amount);
   res.send(posts);
 });
 

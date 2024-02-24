@@ -1,21 +1,45 @@
 import purdueArch from "../assets/purdue-arch.jpg";
-import { postData } from "../data/postData";
 import movingLogo from "../assets/static-logo.png";
 import trustedIcon from "../assets/trusted-icon.svg";
 import peopleOutline from "../assets/people-outline.svg";
 import headshot from "../assets/headshot.jpeg";
+import { useEffect, useState } from "react";
+import Axios from "axios";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
-  const postCards = postData.map((obj, ind) => {
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    Axios.post(`${import.meta.env.VITE_BASE_URL}/posts/recent`, {
+      amount: import.meta.env.VITE_RECENT_AMOUNT,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRecentPosts(res.data);
+        setError(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+      });
+  }, []);
+
+  const postCards = recentPosts.map((obj, ind) => {
     return (
-      <div key={ind} className="card rounded-0 border-0">
-        <img className="card-img-top" src="https://placehold.co/200x100" alt="Card image cap" />
+      <div key={ind} className="card p-0">
+        <img
+          className="card-img-top"
+          style={{ height: "130px", objectFit: "cover" }}
+          src={obj.pictureData ?? purdueArch}
+          alt="Card image cap"
+        />
         <div className="card-body">
           <h5 className="card-title">{obj.title}</h5>
-          <p className="card-text card_overflow-2">{obj.description}</p>
-          <a href="#" className="btn btn-primary">
-            Go somewhere
-          </a>
+          <Link to={`/posts/${obj.Id}`} className="btn btn-primary">
+            See Full Post
+          </Link>
         </div>
       </div>
     );
@@ -30,7 +54,7 @@ const Landing = () => {
       <div className="row justify-content-between">
         {/* main */}
         <div className="col-sm-12 col-md-8 d-flex flex-column">
-          <div>
+          <div className="mb-4">
             <h1 className=" fw-bolder">Welcome to Young Tech</h1>
             <p className="subsection-title m-0">
               A Blog, Guide, and Commentary about Purdue and the ever growing technology around us
@@ -82,11 +106,13 @@ const Landing = () => {
         </div>
 
         {/* sidebar */}
-        <aside className="row col-sm-12 col-md-3 m-0 p-0 border border-2 border-dark-subtle rounded-2">
-          <h3 className=" text-center fw-bold border-bottom border-2 border-dark-subtle">
+        <aside className="row col-sm-12 col-md-3 m-0 p-2 align-content-start border border-2 border-dark-subtle rounded-2 ">
+          <h3 className=" text-center m-0 mb-3 flex-grow-0 fw-bold border-bottom border-2 border-dark-subtle lh-1 align-self-start py-2">
             Recent posts
           </h3>
-          {postCards}
+          <div className="m-0 p-0 d-flex flex-column flex-grow-1 row-gap-5 justify-content-end">
+            {postCards.length > 0 && postCards}
+          </div>
         </aside>
       </div>
     </div>

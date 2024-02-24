@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import defaultPicture from "../assets/purdue-arch.jpg";
 
 const PostArchive = () => {
   const [posts, setPosts] = useState([]);
@@ -33,14 +34,14 @@ const PostArchive = () => {
       {error ? (
         errorMessage
       ) : (
-        <div className="archive-grid">
+        <div className="archive-grid mb-5">
           {posts.map((obj, ind) => {
             return (
               <div key={ind} className="card">
                 <img
                   className="card-img-top"
                   style={{ width: "200px", height: "225px", objectFit: "cover" }}
-                  src={obj.pictureData ?? "https://placehold.co/200x100"}
+                  src={obj.pictureData ?? defaultPicture}
                   alt="Card image cap"
                 />
                 <div className="card-body">

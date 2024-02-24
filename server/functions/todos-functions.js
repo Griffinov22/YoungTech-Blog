@@ -11,10 +11,23 @@ const { addPicToBlobContainer, readBlobFromContainer } = require("./blob-functio
 // createPost("Fake title Here", "Maybe fake body here too.");
 // updatePost(6, "title", "NEW body");
 
-async function getAllPosts() {
+async function getPosts(amount) {
   try {
     const poolConnection = await sql.connect(config);
-    const { recordset } = await poolConnection.request().query(`SELECT * FROM Blogs`);
+    let query;
+
+    if (amount != undefined) {
+      console.log("starting query...");
+      query = await poolConnection
+        .request()
+        .input("amount", sql.Int, Number(amount))
+        .query(`SELECT TOP (@amount) * FROM Blogs ORDER BY dateCreated DESC`);
+      console.log(query);
+    } else {
+      query = await poolConnection.request().query(`SELECT * FROM Blogs`);
+    }
+
+    const recordset = query.recordset;
 
     const recordsWithImages = await Promise.all(
       recordset.map(async (obj) => {
@@ -161,7 +174,7 @@ async function updatePost(id, title, body) {
 }
 
 module.exports = {
-  getAllPosts,
+  getPosts,
   getSinglePostById,
   deleteSinglePostById,
   createPostWithoutImage,
