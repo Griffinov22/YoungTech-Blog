@@ -38,7 +38,7 @@ const Post = () => {
               <img src={postData.pictureData} className="post-image" />
             </div>
           )}
-          <h1 className="text-center">{postData.title}</h1>
+          <h1 className="text-center my-5">{postData.title}</h1>
           <div className="w-100">
             <p className="text-end fw-semibold text-muted mb-0 p-0">
               {postData.dateUpdated

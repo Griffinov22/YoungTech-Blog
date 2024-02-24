@@ -17,12 +17,10 @@ async function getPosts(amount) {
     let query;
 
     if (amount != undefined) {
-      console.log("starting query...");
       query = await poolConnection
         .request()
         .input("amount", sql.Int, Number(amount))
         .query(`SELECT TOP (@amount) * FROM Blogs ORDER BY dateCreated DESC`);
-      console.log(query);
     } else {
       query = await poolConnection.request().query(`SELECT * FROM Blogs`);
     }
@@ -108,7 +106,7 @@ async function createPostWithoutImage(title, body) {
     const res = await poolConnection
       .request()
       .input("title", sql.VarChar(255), title)
-      .input("body", sql.VarChar(255), body)
+      .input("body", sql.VarChar(sql.MAX), body)
       .query(`INSERT INTO Blogs (title, body) VALUES (@title, @body)`);
 
     //rowsAffected will have an array of one integer that
@@ -138,7 +136,7 @@ async function createPostWithImage(title, body, imageFile) {
     const res = await poolConnection
       .request()
       .input("title", sql.VarChar(255), title)
-      .input("body", sql.VarChar(255), body)
+      .input("body", sql.VarChar(sql.MAX), body)
       .input("pictureName", sql.VarChar(100), imageName)
       .query(`INSERT INTO Blogs (title, body, pictureName) VALUES (@title, @body, @pictureName)`);
 

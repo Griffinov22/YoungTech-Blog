@@ -8,7 +8,6 @@ const containerClient = blobServiceClient.getContainerClient("pic-storage-contai
 async function addPicToBlobContainer(imageFile, fileName) {
   const blockBlobClient = containerClient.getBlockBlobClient(fileName);
   const uploadBlobResponse = await blockBlobClient.uploadData(imageFile.data);
-  console.log(uploadBlobResponse);
 }
 
 async function readBlobFromContainer(fileName) {

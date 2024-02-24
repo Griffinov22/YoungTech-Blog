@@ -38,6 +38,7 @@ app.get("/posts/delete/:id", async ({ params }, res) => {
 //create a post
 app.post("/posts", async ({ body, files }, res) => {
   if (files != null) {
+    console.log("post with image");
     // check if file is of type image and only one file
 
     //errors are caught in function
