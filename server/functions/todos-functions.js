@@ -2,7 +2,11 @@ const sql = require("mssql");
 const config = require("../config/sql-config");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
-const { addPicToBlobContainer, readBlobFromContainer } = require("./blob-functions");
+const {
+  addPicToBlobContainer,
+  readBlobFromContainer,
+  updateBlobToContainer,
+} = require("./blob-functions");
 
 //testing
 // getAllPosts();
@@ -148,7 +152,7 @@ async function createPostWithImage(title, body, imageFile) {
   }
 }
 
-async function updatePost(id, title, body) {
+async function updatePost(id, title, body, imageFile) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
     return { message: "title, body, id is not of type string" };
@@ -160,8 +164,14 @@ async function updatePost(id, title, body) {
     const res = await poolConnection
       .request()
       .input("title", sql.VarChar(255), title)
-      .input("body", sql.VarChar(255), body)
+      .input("body", sql.VarChar(sql.MAX), body)
       .query(`UPDATE Blogs SET title = @title, body = @body WHERE id = @id`);
+
+    if (imageFile) {
+      console.log("initiating updating file...");
+      const updatedImageResponse = await updateBlobToContainer(res.pictureName, imageFile);
+      console.log("updated image successfully: ", updatedImageResponse);
+    }
 
     //rowsAffected will have an array of one integer that
     //represents the amount of rows modified if the query is successful

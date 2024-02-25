@@ -15,8 +15,17 @@ const Post = () => {
   useEffect(() => {
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
       .then((res) => {
-        setPostData(res.data);
-        console.log(res.data);
+        // split the body information into array of strings by one or more line break or carriage return
+        const paragraphs = res.data.body.split(/[(\n)|(\r)]+/);
+        const formattedData = paragraphs.map((paragraph) => {
+          return (
+            <p className="body-text" style={{ whiteSpace: "pre-line" }}>
+              {paragraph}
+            </p>
+          );
+        });
+
+        setPostData({ ...res.data, body: formattedData });
         setError(false);
       })
       .catch((err) => {
@@ -47,9 +56,7 @@ const Post = () => {
             </p>
             <p className="text-end fw-semibold text-muted mb-5">By: Griffin Overmyer</p>
           </div>
-          <div>
-            <p className="body-text">{postData.body}</p>
-          </div>
+          <div className="mb-5 mx-auto body-text-parent">{postData.body}</div>
         </>
       ) : (
         <p className="text-center">loading...</p>

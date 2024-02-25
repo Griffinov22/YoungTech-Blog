@@ -70,6 +70,60 @@ p {
 }
 
 /* layout */
+.top-logo-div-sm {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  /* remove top and bottom logo */
+  a:has(.top-logo),
+  .bottom-logo {
+    display: none !important;
+  }
+
+  /* show checkbox logo for dropdown menu */
+  .top-logo-li {
+    align-self: start !important;
+  }
+  .top-logo-div-sm {
+    display: block;
+  }
+  .top-logo-div-sm > .top-check {
+    position: relative;
+  }
+  .top-check {
+    display: block;
+    position: absolute;
+    inset: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .navigation ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* order nav list items */
+  .brand-li {
+    order: 2;
+  }
+  .about-li {
+    order: 3;
+  }
+  .archive-li {
+    order: 4;
+  }
+  .all-posts-li {
+    order: 5;
+  }
+  .make-posts-li {
+    order: 6;
+  }
+}
+
 .container_row-gap > :not(:last-child) {
   margin-bottom: 2rem;
 }
@@ -97,6 +151,14 @@ p {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.card_overflow-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .row-ellipsis-3 p {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -111,10 +173,26 @@ p {
 
 /* archive posts page */
 .archive-grid {
+  --grid-cols: 3;
   display: grid;
   /* width: clamp(800px, 75%, 1200px); */
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
   gap: 5rem;
+}
+
+@media (max-width: 1000px) {
+  .archive-grid {
+    --grid-cols: 2;
+  }
+}
+@media (max-width: 525px) {
+  .archive-grid {
+    --grid-cols: 1;
+  }
+}
+
+a.update-btn:hover {
+  background-color: #e1b634 !important;
 }
 
 /* post page */
@@ -129,9 +207,23 @@ p {
   border-radius: 10px;
 }
 
+.body-text-parent {
+  max-width: 75ch;
+}
 .body-text {
   text-indent: 4ch;
+  /* max-width: 75ch; */
   font-weight: 400;
   font-size: var(--fs-sm);
   line-height: 2;
+}
+.body-text:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
+/* update page */
+
+.update-thumbnail {
+  width: 50px !important;
+  max-width: none !important;
 }

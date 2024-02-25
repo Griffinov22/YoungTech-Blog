@@ -1,25 +1,39 @@
 import { useMsal } from "@azure/msal-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 
-const Create = () => {
+const Update = () => {
   const { instance } = useMsal();
   const navigate = useNavigate();
-  const [postData, setPostData] = useState({ title: "", body: "" });
+  const { id } = useParams();
+  const [postData, setPostData] = useState({ title: "", body: "", Id: "" });
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (!instance.getActiveAccount()) {
+    if (!instance.getActiveAccount() || !id) {
       navigate("/");
+    } else {
+      Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res.data);
+            setPostData(res.data);
+          } else {
+            console.log("error occured getting data");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [instance]);
+  }, [instance, id]);
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
 
     // gather data
-    const { title, body } = postData;
+    const { title, body, id } = postData;
     const imageInput = e.target.imageInput.files;
     let hasImage = false;
 
@@ -30,26 +44,24 @@ const Create = () => {
       throw Error("too many images were provided");
     }
 
-    if (title && body) {
+    if (title && body && id) {
       Axios.post(
-        `${import.meta.env.VITE_BASE_URL}/posts`,
+        `${import.meta.env.VITE_BASE_URL}/posts/update/${id}`,
         {
           title,
           body,
+          id,
           ...(hasImage && { image: imageInput[0] }),
         },
         { headers: { "Content-Type": "multipart/form-data" } }
       ).then((result) => {
         // backend is configured to return true is successful
-        console.log(result.data);
+
         if (!result.data.error) {
+          setPostData({ title: "", body: "", id: "" });
           showSuccess();
         }
       });
-
-      console.log(postData);
-
-      setPostData({ title: "", body: "" });
     }
   };
 
@@ -58,11 +70,15 @@ const Create = () => {
     setTimeout(() => {
       setSuccess(false);
     }, 3000);
+    //   wait one second before redirect
+    setTimeout(() => {
+      return <Navigate to="/archive" />;
+    }, 1000);
   };
 
   return (
     <div className="container container_row-gap position-relative">
-      <h1 className=" fw-bolder">Create Post</h1>
+      <h1 className=" fw-bolder">Update Post</h1>
       <div
         className={
           "alert alert-success position-absolute text-nowrap start-0 end-0 mx-auto " +
@@ -71,10 +87,31 @@ const Create = () => {
         style={{ width: "min-content" }}
         role="alert"
       >
-        Post was created Successfully
+        Post was updated Successfully
       </div>
 
       <form className=" form-check" onSubmit={handleSubmitPost}>
+        <div className="mb-3">
+          <label htmlFor="Id" className="fw-semibold fs-5 d-block form-label">
+            ID
+          </label>
+
+          <input
+            disabled
+            type="text"
+            name="Id"
+            id="Id"
+            className="form-control fw-medium"
+            value={postData.Id}
+          />
+          <input
+            type="hidden"
+            name="Id"
+            id="Id"
+            className="form-control fw-medium"
+            value={postData.Id}
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="title" className="fw-semibold fs-5 d-block form-label">
             Title <span className=" text-danger">*</span>
@@ -90,9 +127,25 @@ const Create = () => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="imageInput" className="fw-semibold fs-5 d-block form-label">
-            Upload an image
-          </label>
+          <div className="d-flex align-items-center column-gap-4">
+            <label htmlFor="imageInput" className="fw-semibold fs-5 d-block form-label">
+              Overwrite an image
+            </label>
+            {postData.pictureData && postData.pictureName && (
+              <>
+                (
+                <span className=" fs-6 fw-bold fst-italic text-primary">
+                  {postData.pictureName}
+                </span>
+                <img
+                  src={postData.pictureData}
+                  alt="image for article"
+                  className="update-thumbnail"
+                />
+                )
+              </>
+            )}
+          </div>
           <input type="file" name="imageInput" id="imageInput" className="form-control fw-medium" />
         </div>
         <div className="mb-3">
@@ -121,4 +174,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Update;

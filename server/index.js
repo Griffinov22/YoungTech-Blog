@@ -58,8 +58,11 @@ app.post("/posts", async ({ body, files }, res) => {
   res.send({ message: "successfully created post", error: false });
 });
 //Update post
-app.post("/posts/update/:id?", async ({ body, params }, res) => {
-  const isSuccessful = await updatePost(params.id, body.title, body.body);
+app.post("/posts/update/:id?", async ({ body, params, files }, res) => {
+  //acces file image without getting error when trying to access a property on undefined object
+  const fileImage = files ? files.image : undefined;
+  const isSuccessful = await updatePost(params.id, body.title, body.body, fileImage);
+
   res.send(isSuccessful);
 });
 

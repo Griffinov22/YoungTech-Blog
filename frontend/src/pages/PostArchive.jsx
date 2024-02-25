@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import defaultPicture from "../assets/purdue-arch.jpg";
+import { AuthenticatedTemplate } from "@azure/msal-react";
 
 const PostArchive = () => {
   const [posts, setPosts] = useState([]);
@@ -45,10 +46,20 @@ const PostArchive = () => {
                   alt="Card image cap"
                 />
                 <div className="card-body">
-                  <h5 className="card-title mb-4">{obj.title}</h5>
-                  <Link to={`/posts/${obj.Id}`} className="btn btn-primary">
-                    See Full Post
-                  </Link>
+                  <h5 className="card-title mb-4 card_overflow-3">{obj.title}</h5>
+                  <div className=" d-flex w-100 justify-content-between">
+                    <Link to={`/posts/${obj.Id}`} className="btn btn-primary fw-semibold">
+                      See Full Post
+                    </Link>
+                    <AuthenticatedTemplate>
+                      <Link
+                        to={`/posts/update/${obj.Id}`}
+                        className="btn btn-warning fw-semibold text-white update-btn"
+                      >
+                        Update
+                      </Link>
+                    </AuthenticatedTemplate>
+                  </div>
                 </div>
               </div>
             );
