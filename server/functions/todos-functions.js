@@ -152,7 +152,7 @@ async function createPostWithImage(title, body, imageFile) {
   }
 }
 
-async function updatePost(id, title, body, imageFile) {
+async function updatePost(id, title, body, imageFile, delPhoto) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
     return { message: "title, body, id is not of type string" };
@@ -161,13 +161,21 @@ async function updatePost(id, title, body, imageFile) {
   try {
     const poolConnection = await sql.connect(config);
 
+    console.log(id, title, body, imageFile);
+
     const res = await poolConnection
       .request()
       .input("title", sql.VarChar(255), title)
       .input("body", sql.VarChar(sql.MAX), body)
+      .input("id", sql.Int, id)
       .query(`UPDATE Blogs SET title = @title, body = @body WHERE id = @id`);
 
-    if (imageFile) {
+    console.log(res);
+
+    if (delPhoto) {
+      // implement delete photo
+    } else if (imageFile) {
+      // attempt to overwrite image file
       console.log("initiating updating file...");
       const updatedImageResponse = await updateBlobToContainer(res.pictureName, imageFile);
       console.log("updated image successfully: ", updatedImageResponse);
