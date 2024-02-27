@@ -57,10 +57,10 @@ app.post("/posts", async ({ body, files }, res) => {
 
   res.send({ message: "successfully created post", error: false });
 });
+
 //Update post
 app.post("/posts/update/:id?", async ({ body, params, files }, res) => {
   //acces file image without getting error when trying to access a property on undefined object
-
   //delPhoto is a bool that lets the backend know to delete a photo from post
   const fileImage = files ? files.image : undefined;
   const isSuccessful = await updatePost(
@@ -68,7 +68,8 @@ app.post("/posts/update/:id?", async ({ body, params, files }, res) => {
     body.title,
     body.body,
     fileImage,
-    body.delPhoto
+    body.pictureName,
+    Boolean(body.delPhoto)
   );
 
   res.send(isSuccessful);

@@ -42,6 +42,17 @@ async function updateBlobToContainer(oldFileName, newImageFile) {
   }
 }
 
+async function deleteBlobToContainer(fileName) {
+  console.log(fileName);
+  const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+  const imageFile = await blockBlobClient.exists();
+  if (imageFile) {
+    const delRespones = await blockBlobClient.delete({ deleteSnapshots: "include" });
+    console.log(delRespones);
+    return delRespones;
+  }
+}
+
 async function readBlobFromContainer(fileName) {
   const blockBlobClient = containerClient.getBlockBlobClient(fileName);
   const imageFile = await blockBlobClient.exists();
@@ -70,4 +81,9 @@ async function streamToBuffer(readableStream) {
   });
 }
 
-module.exports = { addPicToBlobContainer, readBlobFromContainer, updateBlobToContainer };
+module.exports = {
+  addPicToBlobContainer,
+  readBlobFromContainer,
+  deleteBlobToContainer,
+  updateBlobToContainer,
+};

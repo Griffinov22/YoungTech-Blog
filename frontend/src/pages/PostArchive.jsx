@@ -11,7 +11,6 @@ const PostArchive = () => {
   useEffect(() => {
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts`)
       .then((res) => {
-        console.log(res.data);
         setPosts(res.data);
         setError(false);
       })

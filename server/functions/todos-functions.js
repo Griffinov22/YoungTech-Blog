@@ -6,6 +6,7 @@ const {
   addPicToBlobContainer,
   readBlobFromContainer,
   updateBlobToContainer,
+  deleteBlobToContainer,
 } = require("./blob-functions");
 
 //testing
@@ -74,7 +75,7 @@ async function getSinglePostById(id) {
     }
 
     //return post data if no image is attached to the post
-    return recordset;
+    return recordset[0];
   } catch (err) {
     return { message: "error retrieving document" };
   }
@@ -152,7 +153,7 @@ async function createPostWithImage(title, body, imageFile) {
   }
 }
 
-async function updatePost(id, title, body, imageFile, delPhoto) {
+async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
     return { message: "title, body, id is not of type string" };
@@ -161,8 +162,6 @@ async function updatePost(id, title, body, imageFile, delPhoto) {
   try {
     const poolConnection = await sql.connect(config);
 
-    console.log(id, title, body, imageFile);
-
     const res = await poolConnection
       .request()
       .input("title", sql.VarChar(255), title)
@@ -170,22 +169,42 @@ async function updatePost(id, title, body, imageFile, delPhoto) {
       .input("id", sql.Int, id)
       .query(`UPDATE Blogs SET title = @title, body = @body WHERE id = @id`);
 
-    console.log(res);
-
-    if (delPhoto) {
-      // implement delete photo
+    if (delPhoto && pictureName) {
+      const delBlobResponse = await deleteBlobToContainer(pictureName);
+      // remove name attached in Blogs table
+      const delPhotoFromTable = await poolConnection
+        .request()
+        .input("id", sql.Int, id)
+        .query(`UPDATE BLOGS SET pictureName = null WHERE id = @id`);
     } else if (imageFile) {
       // attempt to overwrite image file
+
+      let newPicName;
+      if (!pictureName) {
+        const extension = "." + imageFile.name.split(".")[1];
+        newPicName = uuidv4() + extension;
+      }
+
       console.log("initiating updating file...");
-      const updatedImageResponse = await updateBlobToContainer(res.pictureName, imageFile);
-      console.log("updated image successfully: ", updatedImageResponse);
+      const updatedImageResponse = await updateBlobToContainer(
+        pictureName ?? newPicName,
+        imageFile
+      );
+
+      const addPhotoToTable = await poolConnection
+        .request()
+        .input("id", sql.Int, id)
+        .input("pictureName", sql.VarChar(100), newPicName)
+        .query(`UPDATE BLOGS SET pictureName = @pictureName WHERE id = @id`);
+
+      console.log("added photo name to sql database");
     }
 
     //rowsAffected will have an array of one integer that
     //represents the amount of rows modified if the query is successful
     return res.rowsAffected[0] > 0;
   } catch (err) {
-    return { message: "error inserting document" };
+    return { message: "error inserting document", error: true };
   }
 }
 

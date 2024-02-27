@@ -8,7 +8,13 @@ const Update = () => {
   // param variable name: id
   // statte variable name: Id
   const { id } = useParams();
-  const [postData, setPostData] = useState({ title: "", body: "", Id: "", delPhoto: false });
+  const [postData, setPostData] = useState({
+    title: "",
+    body: "",
+    Id: "",
+    pictureName: "",
+    delPhoto: false,
+  });
   const [success, setSuccess] = useState(false);
   const [readyToNavigate, setReadyToNavigate] = useState(false);
 
@@ -19,6 +25,7 @@ const Update = () => {
       Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
         .then((res) => {
           if (res.status == 200) {
+            console.log(res.data);
             setPostData(res.data);
           } else {
             console.log("error occured getting data");
@@ -34,7 +41,7 @@ const Update = () => {
     e.preventDefault();
 
     // gather data
-    const { title, body, Id, delPhoto } = postData;
+    const { title, body, Id, delPhoto, pictureName } = postData;
     const imageInput = e.target.imageInput.files;
     let hasImage = false;
 
@@ -45,8 +52,6 @@ const Update = () => {
       throw Error("too many images were provided");
     }
 
-    console.log(title, body, Id, delPhoto);
-
     if (title && body && Id) {
       Axios.post(
         `${import.meta.env.VITE_BASE_URL}/posts/update/${Id}`,
@@ -55,6 +60,7 @@ const Update = () => {
           body,
           Id,
           delPhoto,
+          pictureName,
           ...(hasImage && { image: imageInput[0] }),
         },
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -164,6 +170,7 @@ const Update = () => {
                     <input
                       type="checkbox"
                       name="del-photo"
+                      id="del-photo"
                       className="lh-1 m-0 p-0"
                       onChange={(e) =>
                         setPostData((prev) => ({ ...prev, delPhoto: e.target.checked }))
