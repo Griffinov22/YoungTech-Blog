@@ -7,7 +7,7 @@ import { MsalProvider } from "@azure/msal-react";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-import "bootstrap/dist/js/bootstrap.js";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./css/styles.css";
 
 const msalInstance = new PublicClientApplication(msalConfig);

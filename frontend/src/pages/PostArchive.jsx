@@ -63,9 +63,10 @@ const PostArchive = () => {
                             Update
                           </Link>
                           <button
-                            data-toggle="modal"
-                            data-target={"hello" + ind}
-                            className="btn btn-danger fw-semibold text-white"
+                            type="button"
+                            class="btn btn-danger fw-semibold"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#post-${obj.Id}`}
                           >
                             Delete
                           </button>
@@ -77,34 +78,31 @@ const PostArchive = () => {
 
                 {/* attached modal for deletion */}
                 <div
-                  className="modal fade"
-                  id={"hello" + ind}
-                  tabIndex="-1"
-                  role="dialog"
-                  aria-labelledby={`#postmodal${obj.Id}`}
+                  class="modal fade"
+                  id={`post-${obj.Id}`}
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
                   aria-hidden="true"
                 >
-                  <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
                           Modal title
-                        </h5>
+                        </h1>
                         <button
                           type="button"
-                          className="close"
-                          data-dismiss="modal"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
                           aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+                        ></button>
                       </div>
-                      <div className="modal-body">...</div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                      <div class="modal-body">...</div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                           Close
                         </button>
-                        <button type="button" className="btn btn-primary">
+                        <button type="button" class="btn btn-primary">
                           Save changes
                         </button>
                       </div>
