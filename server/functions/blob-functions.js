@@ -19,9 +19,15 @@ async function updateBlobToContainer(oldFileName, newImageFile) {
     try {
       const downloadRespone = await blockBlobClient.download();
       const downloaded = await streamToBuffer(downloadRespone.readableStreamBody);
+      console.log(downloaded);
       //check if images are the same
-      console.log("new file length: ", newImageFile.size, "\n old file length: ", downloaded.size);
-      if (newImageFile.size != downloaded.size) {
+      console.log(
+        "new file length: ",
+        newImageFile.size,
+        "\n old file length: ",
+        downloaded.byteLength
+      );
+      if (newImageFile.size != downloaded.byteLength) {
         console.log("different file...changing file");
         //image is different so updload new file
         const uploadBlobResponse = await blockBlobClient.uploadData(newImageFile.data);

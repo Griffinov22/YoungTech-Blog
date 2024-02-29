@@ -177,7 +177,7 @@ async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
         .input("id", sql.Int, id)
         .query(`UPDATE BLOGS SET pictureName = null WHERE id = @id`);
     } else if (imageFile) {
-      // attempt to overwrite image file
+      // attempt to overwrite image file OR add an image to the table
 
       let newPicName;
       if (!pictureName) {
@@ -185,7 +185,6 @@ async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
         newPicName = uuidv4() + extension;
       }
 
-      console.log("initiating updating file...");
       const updatedImageResponse = await updateBlobToContainer(
         pictureName ?? newPicName,
         imageFile
@@ -194,10 +193,8 @@ async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
       const addPhotoToTable = await poolConnection
         .request()
         .input("id", sql.Int, id)
-        .input("pictureName", sql.VarChar(100), newPicName)
+        .input("pictureName", sql.VarChar(100), pictureName ?? newPicName)
         .query(`UPDATE BLOGS SET pictureName = @pictureName WHERE id = @id`);
-
-      console.log("added photo name to sql database");
     }
 
     //rowsAffected will have an array of one integer that
