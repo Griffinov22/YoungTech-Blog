@@ -27,11 +27,11 @@ app.post("/posts/recent", async ({ body }, res) => {
 });
 
 app.get("/posts/:id", async ({ params }, res) => {
-  const post = await getSinglePostById(params.id);
+  const post = await getSinglePostById(Number(params.id));
   res.send(post);
 });
 
-app.get("/posts/delete/:id", async ({ params }, res) => {
+app.delete("/posts/delete/:id", async ({ params }, res) => {
   const isSuccessful = await deleteSinglePostById(params.id);
   res.send(isSuccessful);
 });

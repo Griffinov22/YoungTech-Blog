@@ -7,36 +7,71 @@ import { AuthenticatedTemplate } from "@azure/msal-react";
 const PostArchive = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
+  const [successDelete, setSuccessDelete] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts`)
       .then((res) => {
-        setPosts(res.data);
-        setError(false);
+        if (!res.data.error) {
+          setPosts(res.data);
+          setError(false);
+        } else {
+          setError(true);
+        }
       })
       .catch((err) => {
         console.log(err);
         setError(true);
       });
-  }, []);
+  }, [successDelete]);
 
   const errorMessage = (
-    <div className="w-100">
-      <p className="text-center text-danger fw-bold">
-        There was an error getting the posts. Try again later
-      </p>
+    <div className="alert alert-danger" role="alert">
+      There was an error getting the posts. Try again later.
     </div>
   );
 
-  const handleDelete = (post) => {};
+  const successMessage = (
+    <div className="alert alert-success" role="alert">
+      Post was successfully deleted.
+    </div>
+  );
+
+  const handleDelete = (id) => {
+    Axios.delete(`${import.meta.env.VITE_BASE_URL}/posts/delete/${id}`)
+      .then((res) => {
+        console.log(res);
+        if (!res.data.error) {
+          showAlert(setSuccessDelete);
+          setError(false);
+        } else {
+          showAlert(setError);
+          setSuccessDelete(false);
+        }
+        window.scrollTo(0, 0);
+      })
+      .catch(() => {
+        showAlert(setError);
+        setSuccessDelete(false);
+      });
+  };
+
+  const showAlert = (stateSetter) => {
+    // this function shows the success delete alert or error alert
+    stateSetter(true);
+    setTimeout(() => {
+      stateSetter(false);
+    }, 1500);
+  };
 
   return (
     <div className="container">
       <h1>Archive Posts</h1>
-      {error ? (
-        errorMessage
-      ) : (
+      {error && errorMessage}
+      {successDelete && successMessage}
+
+      {posts.length > 0 && (
         <div className="archive-grid mb-5">
           {posts.map((obj, ind) => {
             return (
@@ -64,7 +99,7 @@ const PostArchive = () => {
                           </Link>
                           <button
                             type="button"
-                            class="btn btn-danger fw-semibold"
+                            className="btn btn-danger fw-semibold"
                             data-bs-toggle="modal"
                             data-bs-target={`#post-${obj.Id}`}
                           >
@@ -78,32 +113,42 @@ const PostArchive = () => {
 
                 {/* attached modal for deletion */}
                 <div
-                  class="modal fade"
+                  className="modal fade"
                   id={`post-${obj.Id}`}
-                  tabindex="-1"
+                  tabIndex="-1"
                   aria-labelledby="exampleModalLabel"
                   aria-hidden="true"
                 >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
-                          Modal title
+                  <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5 text-danger">
+                          Are you sure you want to delete this post?
                         </h1>
                         <button
                           type="button"
-                          class="btn-close"
+                          className="btn-close"
                           data-bs-dismiss="modal"
                           aria-label="Close"
                         ></button>
                       </div>
-                      <div class="modal-body">...</div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      <div className="modal-body">
+                        <p>
+                          Post title: <span className=" fw-semibold">{obj.title}</span>
+                        </p>
+                        {obj.pictureData && <img className="" src={obj.pictureData} />}
+                      </div>
+                      <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                           Close
                         </button>
-                        <button type="button" class="btn btn-primary">
-                          Save changes
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          onClick={() => handleDelete(obj.Id)}
+                        >
+                          Delete
                         </button>
                       </div>
                     </div>

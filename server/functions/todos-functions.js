@@ -50,7 +50,7 @@ async function getPosts(amount) {
     // [{...},{...}]
     return recordsWithImages;
   } catch (err) {
-    return { message: "error retrieving documents", error: err };
+    return { message: "error retrieving documents", error: true };
   }
 }
 
@@ -77,7 +77,7 @@ async function getSinglePostById(id) {
     //return post data if no image is attached to the post
     return recordset[0];
   } catch (err) {
-    return { message: "error retrieving document" };
+    return { message: "error retrieving document", error: true };
   }
 }
 
@@ -90,11 +90,17 @@ async function deleteSinglePostById(id) {
       .input("id", sql.Int, id)
       .query(`DELETE FROM Blogs WHERE id = @id`);
 
+    console.log(res);
+
     //rowsAffected will have an array of one integer that
     //represents the amount of rows modified if the query is successful
-    return recordset.rowsAffected[0] > 0;
+    if (res.rowsAffected[0] > 0) {
+      return { error: false };
+    } else {
+      return { message: "post does\t exist", error: true };
+    }
   } catch (err) {
-    return { message: "error retrieving document" };
+    return { message: "error retrieving post", error: true };
   }
 }
 
@@ -102,8 +108,9 @@ async function createPostWithoutImage(title, body) {
   //title and body are required and must be of type string
 
   if (typeof title !== "string" && typeof body !== "string")
-    return { message: "title or body not of type string" };
-  if (title == undefined || body == undefined) return { message: "title or body is missing" };
+    return { message: "title or body not of type string", error: true };
+  if (title == undefined || body == undefined)
+    return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
@@ -118,7 +125,7 @@ async function createPostWithoutImage(title, body) {
     //represents the amount of rows modified if the query is successful
     return res.rowsAffected[0] > 0;
   } catch (err) {
-    return { message: "error inserting document" };
+    return { message: "error inserting document", error: true };
   }
 }
 
@@ -126,8 +133,9 @@ async function createPostWithImage(title, body, imageFile) {
   //title and body are required and must be of type string
 
   if (typeof title !== "string" && typeof body !== "string")
-    return { message: "title or body not of type string" };
-  if (title == undefined || body == undefined) return { message: "title or body is missing" };
+    return { message: "title or body not of type string", error: true };
+  if (title == undefined || body == undefined)
+    return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
@@ -149,15 +157,16 @@ async function createPostWithImage(title, body, imageFile) {
     //represents the amount of rows modified if the query is successful
     return res.rowsAffected[0] > 0;
   } catch (err) {
-    return { message: "error inserting document" };
+    return { message: "error inserting document", error: true };
   }
 }
 
 async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
-    return { message: "title, body, id is not of type string" };
-  if (title == undefined || body == undefined) return { message: "title or body is missing" };
+    return { message: "title, body, id is not of type string", error: true };
+  if (title == undefined || body == undefined)
+    return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
