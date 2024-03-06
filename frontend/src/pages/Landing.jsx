@@ -17,8 +17,12 @@ const Landing = () => {
     })
       .then((res) => {
         console.log(res.data);
-        setRecentPosts(res.data);
-        setError(false);
+        if (!res.data.error) {
+          setRecentPosts(res.data);
+          setError(false);
+        } else {
+          setError(true);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -111,6 +115,7 @@ const Landing = () => {
             Recent posts
           </h3>
           <div className="m-0 p-0 d-flex flex-column flex-grow-1 row-gap-5 justify-content-end">
+            {error && <div className="alert alert-danger">Error Loading recent post data</div>}
             {postCards.length > 0 && postCards}
           </div>
         </aside>

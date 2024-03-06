@@ -25,7 +25,6 @@ const Update = () => {
       Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data);
             setPostData(res.data);
           } else {
             console.log("error occured getting data");

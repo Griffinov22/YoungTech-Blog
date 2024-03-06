@@ -8,12 +8,19 @@ const Create = () => {
   const navigate = useNavigate();
   const [postData, setPostData] = useState({ title: "", body: "" });
   const [success, setSuccess] = useState(false);
+  const [readyToNavigate, setReadyToNavigate] = useState(false);
 
   useEffect(() => {
     if (!instance.getActiveAccount()) {
       navigate("/");
     }
   }, [instance]);
+
+  useEffect(() => {
+    if (readyToNavigate) {
+      navigate("/archive");
+    }
+  }, [readyToNavigate]);
 
   const handleSubmitPost = (e) => {
     e.preventDefault();
@@ -57,6 +64,8 @@ const Create = () => {
     setSuccess(true);
     setTimeout(() => {
       setSuccess(false);
+      // navigate user to post archive on successfule creation of post
+      setReadyToNavigate(true);
     }, 3000);
   };
 
