@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import defaultPicture from "../assets/purdue-arch.jpg";
 import { AuthenticatedTemplate } from "@azure/msal-react";
+import LoadingIcon from "../components/loadingIcon";
 
 const PostArchive = () => {
   const [posts, setPosts] = useState([]);
@@ -41,7 +42,6 @@ const PostArchive = () => {
   const handleDelete = (id) => {
     Axios.delete(`${import.meta.env.VITE_BASE_URL}/posts/delete/${id}`)
       .then((res) => {
-        console.log(res);
         if (!res.data.error) {
           showAlert(setSuccessDelete);
           setError(false);
@@ -71,7 +71,7 @@ const PostArchive = () => {
       {error && errorMessage}
       {successDelete && successMessage}
 
-      {posts.length > 0 && (
+      {posts.length > 0 ? (
         <div className="archive-grid mb-5">
           {posts.map((obj, ind) => {
             return (
@@ -157,6 +157,18 @@ const PostArchive = () => {
               </div>
             );
           })}
+        </div>
+      ) : (
+        <div
+          className="w-100"
+          style={{
+            display: "grid",
+            placeItems: "center",
+            alignItems: "end",
+            height: "200px",
+          }}
+        >
+          <LoadingIcon />
         </div>
       )}
     </div>

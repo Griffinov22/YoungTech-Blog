@@ -21,9 +21,6 @@ msalInstance.initialize().then(() => {
 msalInstance.enableAccountStorageEvents();
 
 msalInstance.addEventCallback((event) => {
-  // TESTING
-  // console.log("event = ", event.eventType, " -- ", event.type == EventType.LOGIN_SUCCESS);
-  //
   if (
     event.eventType === EventType.LOGIN_SUCCESS ||
     event.eventType === EventType.ACQUIRE_TOKEN_SUCCESS ||

@@ -48,13 +48,11 @@ const Create = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       ).then((result) => {
         // backend is configured to return true is successful
-        console.log(result.data);
+
         if (!result.data.error) {
           showSuccess();
         }
       });
-
-      console.log(postData);
 
       setPostData({ title: "", body: "" });
     }

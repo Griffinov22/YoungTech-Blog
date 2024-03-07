@@ -24,10 +24,8 @@ const Update = () => {
     } else {
       Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
         .then((res) => {
-          if (res.status == 200) {
+          if (!res.data.error) {
             setPostData(res.data);
-          } else {
-            console.log("error occured getting data");
           }
         })
         .catch((err) => {
@@ -65,7 +63,6 @@ const Update = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       ).then((result) => {
         // backend is configured to return true is successful
-        console.log(result.data);
 
         if (!result.data.error) {
           setPostData({ title: "", body: "", Id: "" });

@@ -6,6 +6,7 @@ import headshot from "../assets/headshot.jpeg";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import LoadingIcon from "../components/loadingIcon";
 
 const Landing = () => {
   const [recentPosts, setRecentPosts] = useState([]);
@@ -16,7 +17,6 @@ const Landing = () => {
       amount: import.meta.env.VITE_RECENT_AMOUNT,
     })
       .then((res) => {
-        console.log(res.data);
         if (!res.data.error) {
           setRecentPosts(res.data);
           setError(false);
@@ -116,7 +116,13 @@ const Landing = () => {
           </h3>
           <div className="m-0 p-0 d-flex flex-column flex-grow-1 row-gap-5 justify-content-end">
             {error && <div className="alert alert-danger">Error Loading recent post data</div>}
-            {postCards.length > 0 && postCards}
+            {postCards.length > 0 ? (
+              postCards
+            ) : (
+              <div className=" mx-auto mt-5">
+                <LoadingIcon />
+              </div>
+            )}
           </div>
         </aside>
       </div>
