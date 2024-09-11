@@ -1,9 +1,10 @@
 import { useMsal } from "@azure/msal-react";
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Axios from "axios";
 
 const Update = () => {
+  const navigate = useNavigate();
   const { instance } = useMsal();
   // param variable name: id
   // statte variable name: Id
@@ -20,7 +21,7 @@ const Update = () => {
 
   useEffect(() => {
     if (!instance.getActiveAccount() || !id) {
-      setReadyToNavigate(true);
+      navigate("/");
     } else {
       Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
         .then((res) => {
@@ -83,19 +84,11 @@ const Update = () => {
     }, 1000);
   };
 
-  // if successful post or unsuccessful not given an id
-  if (readyToNavigate) {
-    return <Navigate to="/archive" />;
-  }
-
   return (
     <div className="container container_row-gap position-relative">
       <h1 className=" fw-bolder">Update Post</h1>
       <div
-        className={
-          "alert alert-success position-absolute text-nowrap start-0 end-0 mx-auto " +
-          (success ? "" : "fade")
-        }
+        className={"alert alert-success position-absolute text-nowrap start-0 end-0 mx-auto " + (success ? "" : "fade")}
         style={{ width: "min-content" }}
         role="alert"
       >
@@ -109,21 +102,8 @@ const Update = () => {
               ID
             </label>
 
-            <input
-              disabled
-              type="text"
-              name="Id"
-              id="Id"
-              className="form-control fw-medium"
-              value={postData.Id}
-            />
-            <input
-              type="hidden"
-              name="Id"
-              id="Id"
-              className="form-control fw-medium"
-              value={postData.Id}
-            />
+            <input disabled type="text" name="Id" id="Id" className="form-control fw-medium" value={postData.Id} />
+            <input type="hidden" name="Id" id="Id" className="form-control fw-medium" value={postData.Id} />
           </div>
           <div className="mb-3">
             <label htmlFor="title" className="fw-semibold fs-5 d-block form-label">
@@ -146,21 +126,12 @@ const Update = () => {
               </label>
               {postData.pictureData && postData.pictureName && (
                 <>
-                  <span className=" fs-6 fw-bold fst-italic text-primary">
-                    {postData.pictureName}
-                  </span>
+                  <span className=" fs-6 fw-bold fst-italic text-primary">{postData.pictureName}</span>
 
-                  <img
-                    src={postData.pictureData}
-                    alt="image for article"
-                    className="update-thumbnail"
-                  />
+                  <img src={postData.pictureData} alt="image for article" className="update-thumbnail" />
 
                   <div className="ms-auto d-flex align-items-center column-gap-2">
-                    <label
-                      htmlFor="del-photo"
-                      className="fw-semibold fs-6 p-0 m-0 text-danger d-block form-label lh-1"
-                    >
+                    <label htmlFor="del-photo" className="fw-semibold fs-6 p-0 m-0 text-danger d-block form-label lh-1">
                       Delete Image
                     </label>
                     <input
@@ -168,21 +139,14 @@ const Update = () => {
                       name="del-photo"
                       id="del-photo"
                       className="lh-1 m-0 p-0"
-                      onChange={(e) =>
-                        setPostData((prev) => ({ ...prev, delPhoto: e.target.checked }))
-                      }
+                      onChange={(e) => setPostData((prev) => ({ ...prev, delPhoto: e.target.checked }))}
                       value={setPostData.delPhoto}
                     />
                   </div>
                 </>
               )}
             </div>
-            <input
-              type="file"
-              name="imageInput"
-              id="imageInput"
-              className="form-control fw-medium"
-            />
+            <input type="file" name="imageInput" id="imageInput" className="form-control fw-medium" />
           </div>
           <div className="mb-3">
             <label htmlFor="body" className="fw-semibold fs-5 d-block form-label">
