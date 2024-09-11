@@ -30,7 +30,7 @@ const Landing = () => {
       });
   }, []);
 
-  const postCards = recentPosts.map((obj, ind) => {
+  const postCards = recentPosts?.map((obj, ind) => {
     return (
       <div key={ind} className="card p-0">
         <img
@@ -72,33 +72,26 @@ const Landing = () => {
                 <div>
                   <h2>Hey I'm Griffin 👋</h2>
                   <p>
-                    I'm a junior at Purdue University Studying Web Development and Design. I find
-                    building websites very fascinating, but I also really love sports! In my free
-                    time I enjoy drinking coffee, swimming, and skiing.
+                    I'm a junior at Purdue University Studying Web Development and Design. I find building websites very
+                    fascinating, but I also really love sports! In my free time I enjoy drinking coffee, swimming, and
+                    skiing.
                   </p>
                 </div>
               </div>
               <div className="col-ms-12 col-md-6 p-3">
-                <img
-                  src={headshot}
-                  className="rounded-2"
-                  alt="headshot of Griffin Overmyer in 2022"
-                />
+                <img src={headshot} className="rounded-2" alt="headshot of Griffin Overmyer in 2022" />
               </div>
             </div>
 
             <div className="row call-grid justify-content-around my-5">
               <div className="col-4 d-flex flex-column align-items-center row-gap-4">
                 <img src={movingLogo} alt="internet gif" />
-                <p className="text-center">
-                  Real information about technology from a real human being
-                </p>
+                <p className="text-center">Real information about technology from a real human being</p>
               </div>
               <div className="col-4 d-flex flex-column align-items-center row-gap-4">
                 <img src={trustedIcon} alt="trusted source icon" />
                 <p className="text-center">
-                  Commentary from a trusted source. I am not getting paid by any business for my
-                  content.
+                  Commentary from a trusted source. I am not getting paid by any business for my content.
                 </p>
               </div>
               <div className="col-4 d-flex flex-column align-items-center row-gap-4">

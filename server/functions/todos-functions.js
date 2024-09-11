@@ -85,10 +85,7 @@ async function deleteSinglePostById(id) {
   try {
     const poolConnection = await sql.connect(config);
 
-    const res = await poolConnection
-      .request()
-      .input("id", sql.Int, id)
-      .query(`DELETE FROM Blogs WHERE id = @id`);
+    const res = await poolConnection.request().input("id", sql.Int, id).query(`DELETE FROM Blogs WHERE id = @id`);
 
     console.log(res);
 
@@ -109,8 +106,7 @@ async function createPostWithoutImage(title, body) {
 
   if (typeof title !== "string" && typeof body !== "string")
     return { message: "title or body not of type string", error: true };
-  if (title == undefined || body == undefined)
-    return { message: "title or body is missing", error: true };
+  if (title == undefined || body == undefined) return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
@@ -134,8 +130,7 @@ async function createPostWithImage(title, body, imageFile) {
 
   if (typeof title !== "string" && typeof body !== "string")
     return { message: "title or body not of type string", error: true };
-  if (title == undefined || body == undefined)
-    return { message: "title or body is missing", error: true };
+  if (title == undefined || body == undefined) return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
@@ -165,8 +160,7 @@ async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
   //title and body are required and must be of type string
   if (typeof title !== "string" || typeof body !== "string" || typeof id !== "number")
     return { message: "title, body, id is not of type string", error: true };
-  if (title == undefined || body == undefined)
-    return { message: "title or body is missing", error: true };
+  if (title == undefined || body == undefined) return { message: "title or body is missing", error: true };
 
   try {
     const poolConnection = await sql.connect(config);
@@ -194,10 +188,7 @@ async function updatePost(id, title, body, imageFile, pictureName, delPhoto) {
         newPicName = uuidv4() + extension;
       }
 
-      const updatedImageResponse = await updateBlobToContainer(
-        pictureName ?? newPicName,
-        imageFile
-      );
+      const updatedImageResponse = await updateBlobToContainer(pictureName ?? newPicName, imageFile);
 
       const addPhotoToTable = await poolConnection
         .request()
@@ -247,9 +238,7 @@ async function insertImage() {
 
 async function readImage() {
   const poolConnection = await sql.connect(config);
-  const { recordset } = await poolConnection
-    .request()
-    .query(`SELECT ImageData FROM BlogImages WHERE PostId = 1`);
+  const { recordset } = await poolConnection.request().query(`SELECT ImageData FROM BlogImages WHERE PostId = 1`);
 
   const buffer = Buffer.from(recordset[0].ImageData, "base64");
   fs.writeFile(__dirname + "/../assets/newImage.png", buffer, (err) => {
