@@ -47,7 +47,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: react-app
+          name: node-app
 
       # Deploy only the frontend (React app)
       - name: "Deploy to Azure Web App"
