@@ -1,4 +1,4 @@
-# Young Tech
+# Young Tech Blog
 
 This is a personal full stack web application to get me introduced to:
 
