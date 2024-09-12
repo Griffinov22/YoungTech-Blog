@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: react-app
-          path: dist # Path to React's build folder
+          path: frontend/dist # Path to React's build folder
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,5 +66,5 @@ jobs:
         with:
           app-name: "YoungTeck"
           slot-name: "production"
-          package: dist # Path to the React app build output
+          package: ${{ github.workspace }}/frontend/dist # Path to the React app build output
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_16c8822a57c94f858dba18271e13cc3f }}
