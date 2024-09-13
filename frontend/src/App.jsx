@@ -1,9 +1,4 @@
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Root from "./layout/Root";
 import Landing from "./pages/Landing";
 import Posts from "./pages/protected/Posts";
@@ -29,6 +24,8 @@ function App() {
       </Route>
     )
   );
+
+  console.log(import.meta.env);
 
   return <RouterProvider router={router} />;
 }
