@@ -6,7 +6,7 @@ import headshot from "../assets/headshot.jpeg";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
-import LoadingIcon from "../components/loadingIcon";
+import LoadingIcon from "../components/LoadingIcon";
 
 const Landing = () => {
   const [recentPosts, setRecentPosts] = useState([]);
