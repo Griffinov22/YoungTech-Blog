@@ -11,6 +11,8 @@ on:
 env:
   VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID}}
   VITE_DIRECTORY_ID: ${{ secrets.VITE_DIRECTORY_ID }}
+  VITE_RECENT_AMOUNT: ${{ secrets.VITE_RECENT_AMOUNT }}
+  VITE_PROD_URL: ${{ secrets.VITE_PROD_URL }}
 
 jobs:
   build_and_deploy_job:
