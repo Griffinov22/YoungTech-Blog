@@ -33,6 +33,7 @@ jobs:
           VITE_DIRECTORY_ID: ${{ secrets.VITE_DIRECTORY_ID }}
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_RECENT_AMOUNT: ${{ secrets.VITE_RECENT_AMOUNT }}
+          VITE_PROD_URL: ${{ secrets.VITE_PROD_URL }}
 
       # Upload only the build output of the frontend folder for deployment
       - name: Upload artifact for deployment job
