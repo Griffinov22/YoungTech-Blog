@@ -14,7 +14,7 @@ export const msalConfig = {
   auth: {
     clientId: `${import.meta.env.VITE_CLIENT_ID}`,
     authority: `https://login.microsoftonline.com/${import.meta.env.VITE_DIRECTORY_ID}`,
-    redirectUri: `http://localhost:5173/`,
+    redirectUri: import.meta.env.MODE == "production" ? import.meta.env.VITE_PROD_URL : import.meta.env.VITE_LOCAL_URL,
   },
   cache: {
     cacheLocation: "sessionStorage", // This configures where your cache will be stored
