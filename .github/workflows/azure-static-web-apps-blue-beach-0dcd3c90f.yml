@@ -13,6 +13,7 @@ env:
   VITE_DIRECTORY_ID: ${{ secrets.VITE_DIRECTORY_ID }}
   VITE_RECENT_AMOUNT: ${{ secrets.VITE_RECENT_AMOUNT }}
   VITE_PROD_URL: ${{ secrets.VITE_PROD_URL }}
+  VITE_BASE_URL: ${{ secrets.VITE_BASE_URL}}
 
 jobs:
   build_and_deploy_job:
