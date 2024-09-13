@@ -26,7 +26,9 @@ jobs:
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
         with:
-          app-name: integrationninjas
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: server
+          app-name: "YoungTech-backend"
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2FF36F89F56147D183E1910DFAFDEC34 }}
+          package: .
