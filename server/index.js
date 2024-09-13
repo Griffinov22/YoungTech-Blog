@@ -21,6 +21,8 @@ app.use(
     credentials: true,
   })
 );
+
+console.log(process.env);
 app.use(express.json());
 app.use(fileUpload());
 
