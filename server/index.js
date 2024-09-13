@@ -15,12 +15,12 @@ const app = express();
 const allowedOrgin =
   process.env.NODE_ENV === "production" ? process.env.PROD_FRONTEND_URL : process.env.DEV_FRONTEND_URL;
 
-app.use(
-  cors({
-    origin: allowedOrgin,
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: allowedOrgin,
+//     credentials: true,
+//   })
+// );
 
 console.log(process.env);
 app.use(express.json());
