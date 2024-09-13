@@ -28,6 +28,11 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+        env:
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
+          VITE_DIRECTORY_ID: ${{ secrets.VITE_DIRECTORY_ID }}
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_RECENT_AMOUNT: ${{ secrets.VITE_RECENT_AMOUNT }}
 
       # Upload only the build output of the frontend folder for deployment
       - name: Upload artifact for deployment job
