@@ -12,7 +12,15 @@ const {
 } = require("./functions/todos-functions");
 const app = express();
 
-app.use(cors());
+const allowedOrgin =
+  process.env.NODE_ENV === "production" ? process.env.PROD_FRONTEND_URL : process.env.DEV_FRONTEND_URL;
+
+app.use(
+  cors({
+    origin: allowedOrgin,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(fileUpload());
 
