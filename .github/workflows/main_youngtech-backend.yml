@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js version
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "20.x"
       - name: Install Dependencies
         run: |
           cd server
@@ -31,4 +31,4 @@ jobs:
           app-name: "YoungTech-backend"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2FF36F89F56147D183E1910DFAFDEC34 }}
-          package: .
+          package: server
