@@ -37,10 +37,9 @@ jobs:
 
           cd ..
 
-      # Debugging step to check if 'dist' exists
       - name: Check dist folder
         run: |
-          Get-ChildItem -Recurse frontend/dist
+          ls -la frontend/dist
 
       - name: Install backend dependencies
         run: |
@@ -50,8 +49,8 @@ jobs:
 
       - name: Move server contents to root
         run: |
-          Move-Item -Path server\* -Destination .    # Move all the contents from 'server' folder to root
-          Remove-Item -Recurse -Force server         # Remove the 'server' folder itself
+          mv server/* .    
+          rm -rf server
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
