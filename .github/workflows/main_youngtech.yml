@@ -83,7 +83,7 @@ jobs:
           name: node-app
 
       - name: Display artifact structure
-        run: lsdir
+        run: ls -R
 
       - name: Login to Azure
         uses: azure/login@v2
