@@ -71,3 +71,8 @@ jobs:
           app-name: "YoungTech"
           slot-name: "Production"
           package: .
+
+      - name: start Node.js server
+        run: |
+          cd server
+          npm run start
