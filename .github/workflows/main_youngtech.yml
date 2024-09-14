@@ -58,11 +58,11 @@ jobs:
         with:
           name: node-app
           path: |
-            frontend/dist/*
-            assets/*
-            config/*
-            functions/*
-            node_modules/*
+            frontend/dist
+            assets
+            config
+            functions
+            node_modules
             index.js
             package-lock.json
             package.json
