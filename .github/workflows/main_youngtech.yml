@@ -34,7 +34,13 @@ jobs:
           cd frontend
           npm install
           npm run build
+
           cd ..
+
+      # Debugging step to check if 'dist' exists
+      - name: Check dist folder
+        run: |
+          Get-ChildItem -Recurse frontend/dist
 
       - name: Install backend dependencies
         run: |
@@ -44,8 +50,8 @@ jobs:
 
       - name: Move server contents to root
         run: |
-          mv server/* .    # Move all the contents from 'server' folder to root
-          rm -rf server    # Remove the 'server' folder itself
+          Move-Item -Path server\* -Destination .    # Move all the contents from 'server' folder to root
+          Remove-Item -Recurse -Force server         # Remove the 'server' folder itself
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
