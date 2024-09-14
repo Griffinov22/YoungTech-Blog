@@ -52,7 +52,7 @@ jobs:
         with:
           name: node-app
           path: |
-            frontend/dist    # Upload frontend build files
+            frontend/dist/*
             assets/*
             config/*
             functions/*
