@@ -83,4 +83,4 @@ jobs:
       # Custom startup command to run 'cd server && npm start'
       - name: Set custom startup command for Azure
         run: |
-          az webapp config set --resource-group "test" --name "youngTech" --startup-file "cd server && npm run start"
+          az webapp config set --resource-group "test" --name "youngTech" --startup-file "npm run start"
