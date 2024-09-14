@@ -76,6 +76,13 @@ jobs:
       id-token: write #This is required for requesting the JWT
 
     steps:
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8C018CEED9984645BC3B0A66DCF5D25E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F1F72A792B9948F1A4636B591CE1AE5D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_914828291CF24F4CA0BC44E807386EC1 }}
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -84,17 +91,10 @@ jobs:
       - name: Display artifact structure
         run: ls
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8C018CEED9984645BC3B0A66DCF5D25E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F1F72A792B9948F1A4636B591CE1AE5D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_914828291CF24F4CA0BC44E807386EC1 }}
-
       - name: "Deploy to Azure Web App"
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: "YoungTech"
           slot-name: "Production"
-          package: .
+          package: "./node-app"
