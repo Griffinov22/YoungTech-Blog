@@ -39,8 +39,8 @@ jobs:
         with:
           name: node-app
           path: |
-            frontend/build
-            server
+            frontend/dist
+            server/
 
   deploy:
     runs-on: ubuntu-latest
@@ -70,4 +70,4 @@ jobs:
         with:
           app-name: "YoungTech"
           slot-name: "Production"
-          package: node-app
+          package: ./node-app
