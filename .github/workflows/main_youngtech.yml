@@ -48,7 +48,7 @@ jobs:
           name: node-app
           path: |
             frontend/dist
-            server/
+            server/**
 
   deploy:
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
           slot-name: "Production"
           package: .
 
-      - name: start Node.js server
+      # Custom startup command to run 'cd server && npm start'
+      - name: Set custom startup command for Azure
         run: |
-          cd server
-          npm run start
+          az webapp config set --resource-group <resource-group-name> --name "YoungTech" --startup-file "cd server && npm start"
