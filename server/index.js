@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+const path = require("path");
 require("dotenv").config({ path: __dirname + "/.env" });
 const {
   getPosts,
@@ -11,18 +12,8 @@ const {
   updatePost,
 } = require("./functions/todos-functions");
 const app = express();
+app.use(cors());
 
-const allowedOrgin =
-  process.env.NODE_ENV === "production" ? process.env.PROD_FRONTEND_URL : process.env.DEV_FRONTEND_URL;
-
-// app.use(
-//   cors({
-//     origin: allowedOrgin,
-//     credentials: true,
-//   })
-// );
-
-console.log(process.env);
 app.use(express.json());
 app.use(fileUpload());
 
@@ -84,6 +75,13 @@ app.post("/posts/update/:id?", async ({ body, params, files }, res) => {
 
   res.send(isSuccessful);
 });
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("./frontend/dist"));
+  app.get("*", (req, res) => {
+    res.sendFile(__dirname, "frontend", "dist", "index.html");
+  });
+}
 
 app.listen(process.env.PORT || 3001, () => {
   console.log(`connected to server at http://localhost:${process.env.PORT || 3001}`);
