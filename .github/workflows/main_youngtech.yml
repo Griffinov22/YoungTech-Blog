@@ -8,6 +8,14 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  SERVER_NAME: ${{ secrets.SERVER_NAME }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  USER: ${{ secrets.USER }}
+  PASSWORD: ${{ secrets.SERVER_NAME }}
+  PORT: ${{ secrets.PORT }}
+  PROD: ${{ secrets.SERVER_NAME }}
+  BLOB_CONNECTION: ${{ secrets.BLOB_CONNECTION }}
 
 jobs:
   build:
