@@ -42,13 +42,24 @@ jobs:
           npm install
           cd ..
 
+      - name: Move server contents to root
+        run: |
+          mv server/* .    # Move all the contents from 'server' folder to root
+          rm -rf server    # Remove the 'server' folder itself
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: |
-            frontend/dist
-            server/*
+            frontend/dist    # Upload frontend build files
+            assets/*
+            config/*
+            functions/*
+            node_modules/*
+            index.js
+            package-lock.json
+            package.json
 
   deploy:
     runs-on: ubuntu-latest
@@ -80,7 +91,6 @@ jobs:
           slot-name: "Production"
           package: .
 
-      # Custom startup command to run 'cd server && npm start'
       - name: Set custom startup command for Azure
         run: |
           az webapp config set --resource-group "test" --name "youngTech" --startup-file "npm run start"
