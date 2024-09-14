@@ -83,7 +83,7 @@ jobs:
           name: node-app
 
       - name: Display artifact structure
-        run: ls -R
+        run: ls
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -99,7 +99,3 @@ jobs:
           app-name: "YoungTech"
           slot-name: "Production"
           package: .
-
-      - name: Set custom startup command for Azure
-        run: |
-          az webapp config set --resource-group "test" --name "youngTech" --startup-file "npm run start"
