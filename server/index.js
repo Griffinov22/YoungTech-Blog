@@ -76,13 +76,6 @@ app.post("/posts/update/:id?", async ({ body, params, files }, res) => {
   res.send(isSuccessful);
 });
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("./frontend/dist"));
-  app.get("*", (req, res) => {
-    res.sendFile(__dirname, "frontend", "dist", "index.html");
-  });
-}
-
 app.listen(process.env.PORT || 3001, () => {
   console.log(`connected to server at http://localhost:${process.env.PORT || 3001}`);
 });
