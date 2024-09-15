@@ -50,6 +50,10 @@ jobs:
         with:
           name: node-app
 
+      - name: see what is in current directory
+        run: |
+          ls
+
       - name: Unzip artifact for deployment
         run: |
           unzip release.zip
