@@ -1,50 +1,50 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
+# # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - youngTech
+# name: Build and deploy Node.js app to Azure Web App - youngTech
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    environment:
-      name: "Production"
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: "Production"
+#       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+#     permissions:
+#       id-token: write #This is required for requesting the JWT
 
-    steps:
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2CBFB7686E2A41F6A70ACB55461F8D60 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1AAEB4C6D9764CA0943E5A81C444AD92 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E207FAC6FF204D82A88C9ACF879EEB91 }}
+#     steps:
+#       - name: Login to Azure
+#         uses: azure/login@v2
+#         with:
+#           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2CBFB7686E2A41F6A70ACB55461F8D60 }}
+#           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1AAEB4C6D9764CA0943E5A81C444AD92 }}
+#           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E207FAC6FF204D82A88C9ACF879EEB91 }}
 
-      - uses: actions/checkout@v4
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
+#       - uses: actions/checkout@v4
+#       - name: Set up Node.js version
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "18.x"
 
-      - name: Install Dependencies
-        working-directory: ./server
-        run: npm install
+#       - name: Install Dependencies
+#         working-directory: ./server
+#         run: npm install
 
-      - name: Build Deployment Package
-        run: |
-          cd server
-          zip -r ../release.zip .
+#       - name: Build Deployment Package
+#         run: |
+#           cd server
+#           zip -r ../release.zip .
 
-      - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: "youngTech"
-          slot-name: "Production"
-          package: ./release.zip
+#       - name: "Deploy to Azure Web App"
+#         id: deploy-to-webapp
+#         uses: azure/webapps-deploy@v3
+#         with:
+#           app-name: "youngTech"
+#           slot-name: "Production"
+#           package: ./release.zip
