@@ -52,7 +52,9 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: |
+          unzip release.zip
+          rm relase.zip
 
       - name: check contents
         run: ls
