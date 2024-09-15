@@ -21,10 +21,11 @@ jobs:
         with:
           node-version: "18.x"
 
-      # - name: npm install, build, and test
-      #   run: |
-      #     cd server
-      #     npm install
+      - name: npm install, build, and test
+        run: |
+          cd server
+          npm install
+          cd ..
 
       - name: Zip artifact for deployment
         run: cd server && zip -r ../release.zip ./*
@@ -54,14 +55,14 @@ jobs:
         run: |
           ls
 
-      - name: Unzip artifact for deployment
-        run: |
-          unzip release.zip
-          rm release.zip
-          npm install
+      # - name: Unzip artifact for deployment
+      #   run: |
+      #     unzip release.zip
+      #     rm release.zip
+      #     npm install
 
-      - name: check contents
-        run: ls
+      # - name: check contents
+      #   run: ls
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -76,4 +77,4 @@ jobs:
         with:
           app-name: "youngTech"
           slot-name: "Production"
-          package: .
+          package: release.zip
