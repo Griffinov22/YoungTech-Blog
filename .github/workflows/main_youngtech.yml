@@ -21,11 +21,10 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: npm install, build, and test
-        run: |
-          cd server
-          npm install
-        # npm run build --if-present
+      # - name: npm install, build, and test
+      #   run: |
+      #     cd server
+      #     npm install
 
       - name: Zip artifact for deployment
         run: cd server && zip -r ../release.zip ./*
@@ -55,7 +54,7 @@ jobs:
         run: |
           unzip release.zip
           rm release.zip
-          npm run build
+          npm install
 
       - name: check contents
         run: ls
