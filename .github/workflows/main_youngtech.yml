@@ -25,7 +25,7 @@ jobs:
         run: |
           cd server
           npm install
-          npm run build --if-present
+        # npm run build --if-present
 
       - name: Zip artifact for deployment
         run: cd server && zip -r ../release.zip ./*
@@ -54,7 +54,8 @@ jobs:
       - name: Unzip artifact for deployment
         run: |
           unzip release.zip
-          rm relase.zip
+          rm release.zip
+          npm run build
 
       - name: check contents
         run: ls
