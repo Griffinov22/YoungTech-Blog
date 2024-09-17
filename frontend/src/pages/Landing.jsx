@@ -72,9 +72,9 @@ const Landing = () => {
                 <div>
                   <h2>Hey I'm Griffin 👋</h2>
                   <p>
-                    I'm a junior at Purdue University Studying Web Development and Design. I find building websites very
-                    fascinating, but I also really love sports! In my free time I enjoy drinking coffee, swimming, and
-                    skiing.
+                    I'm a <i>senior</i> at Purdue University Studying Web Development and Design. I find building
+                    websites very fascinating, but I also really love sports! In my free time I enjoy drinking coffee,
+                    swimming, and skiing.
                   </p>
                 </div>
               </div>
