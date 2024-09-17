@@ -8,6 +8,11 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+env:
+  VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID}}
+  VITE_DIRECTORY_ID: ${{ secrets.VITE_DIRECTORY_ID}}
+  VITE_BASE_URL: ${{ secrets.VITE_BASE_URL}}
+  VITE_RECENT_AMOUNT: ${{ secrets.VITE_RECENT_AMOUNT}}
 
 jobs:
   build_and_deploy_job:
