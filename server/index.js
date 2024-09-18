@@ -12,9 +12,20 @@ const {
   updatePost,
 } = require("./functions/todos-functions");
 const app = express();
+const whitelist =
+  process.env.NODE_ENV == "production"
+    ? [process.env.FRONTEND_URL]
+    : [process.env.FRONTEND_URL, "http://localhost:5173"];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (origin, callback) => {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Origin is not whitelisted"));
+      }
+    },
     credentials: true,
   })
 );

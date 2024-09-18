@@ -6,6 +6,7 @@ import Create from "./pages/protected/Create";
 import PostArchive from "./pages/PostArchive";
 import Post from "./pages/Post";
 import Update from "./pages/protected/Update";
+import { About } from "./pages/About";
 
 function App() {
   const router = createBrowserRouter(
@@ -21,6 +22,7 @@ function App() {
 
         <Route path="posts/:id" element={<Post />} />
         <Route path="archive" element={<PostArchive />} />
+        <Route path="about" element={<About />} />
       </Route>
     )
   );

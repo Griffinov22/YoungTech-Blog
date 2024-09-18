@@ -51,8 +51,13 @@ const Landing = () => {
 
   return (
     <div className="container container_row-gap">
-      <div className="row justify-content-center">
-        <img src={purdueArch} alt="Purdue Background" className=" rounded-3 main_img" />
+      <div className="row">
+        <img
+          src={purdueArch}
+          style={{ height: "100%", maxHeight: "400px", objectFit: "cover" }}
+          alt="Purdue Background"
+          className="rounded-3 col-12 mx-auto"
+        />
       </div>
 
       <div className="row justify-content-between">

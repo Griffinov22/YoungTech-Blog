@@ -79,7 +79,7 @@ const PostArchive = () => {
                 <div className="card">
                   <img
                     className="card-img-top"
-                    style={{ width: "200px", height: "225px", objectFit: "cover" }}
+                    style={{ height: "225px", objectFit: "cover" }}
                     src={obj.pictureData ?? defaultPicture}
                     alt="Card image cap"
                   />
