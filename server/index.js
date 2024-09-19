@@ -33,6 +33,8 @@ app.use(
 app.use(express.json());
 app.use(fileUpload());
 
+app.get("/", (req, res) => res.sendStatus(200));
+
 app.get("/posts", async (req, res) => {
   const posts = await getPosts();
   res.send(posts);
