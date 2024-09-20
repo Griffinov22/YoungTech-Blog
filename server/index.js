@@ -12,10 +12,12 @@ const {
   updatePost,
 } = require("./functions/todos-functions");
 const app = express();
+
+const cron_apis = process.env.CRON_JOB_IPS.split(" ");
+console.log(cron_apis);
+
 const whitelist =
-  process.env.NODE_ENV == "production"
-    ? [process.env.FRONTEND_URL]
-    : [process.env.FRONTEND_URL, "http://localhost:5173"];
+  process.env.NODE_ENV == "production" ? [process.env.FRONTEND_URL, ...cron_apis] : ["http://localhost:5173"];
 
 app.use(
   cors({
