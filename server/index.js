@@ -21,7 +21,8 @@ const whitelist =
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (whitelist.indexOf(origin) !== -1) {
+      // !origin is calling from curl
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true);
       } else {
         callback(new Error(origin + " is not whitelisted"));
