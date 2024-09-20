@@ -24,7 +24,7 @@ app.use(
       if (whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error("Origin is not whitelisted"));
+        callback(new Error(origin + " is not whitelisted"));
       }
     },
     credentials: true,
