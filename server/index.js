@@ -13,16 +13,12 @@ const {
 } = require("./functions/todos-functions");
 const app = express();
 
-const cron_apis = process.env.CRON_JOB_IPS.split(" ");
-
-const whitelist =
-  process.env.NODE_ENV == "production" ? [process.env.FRONTEND_URL, ...cron_apis] : ["http://localhost:5173"];
+const whitelist = process.env.NODE_ENV == "production" ? [process.env.FRONTEND_URL] : ["http://localhost:5173"];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // !origin is calling from curl
-      if (whitelist.indexOf(origin) !== -1 || !origin) {
+      if (whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
         callback(new Error(origin + " is not whitelisted"));
