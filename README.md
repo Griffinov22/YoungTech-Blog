@@ -1,4 +1,5 @@
 # Young Tech Blog
+## Hosted: <a href="https://black-tree-0289eca0f.5.azurestaticapps.net/">here</a>
 
 This is a personal full stack web application to get me introduced to:
 
