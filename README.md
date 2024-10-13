@@ -1,5 +1,5 @@
 # Young Tech Blog
-<a href="https://ibb.co/zhdqjHG"><img src="https://i.ibb.co/BVk0dKq/black-tree-0289eca0f-5-azurestaticapps-net.png" alt="black-tree-0289eca0f-5-azurestaticapps-net" border="0"></a><br /><a target='_blank' href='https://dedupelist.com/'>combo duplicate remover</a><br />
+<img src="https://i.ibb.co/BVk0dKq/black-tree-0289eca0f-5-azurestaticapps-net.png" alt="black-tree-0289eca0f-5-azurestaticapps-net" border="0" style="width: 200px;"/>
 Hosted: <a href="https://black-tree-0289eca0f.5.azurestaticapps.net/">here</a>
 
 This is a personal full stack web application to get me introduced to:
