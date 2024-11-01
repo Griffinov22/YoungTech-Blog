@@ -1,4 +1,0 @@
-{
-  "appService.defaultWebAppToDeploy": "/subscriptions/ea9b571c-d4bd-480f-9417-d269720721c8/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/YoungTech-backend",
-  "appService.deploySubpath": "."
-}
