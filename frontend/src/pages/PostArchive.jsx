@@ -9,7 +9,6 @@ const PostArchive = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts`)
@@ -80,19 +79,19 @@ const PostArchive = () => {
                   <img
                     className="card-img-top"
                     style={{ height: "225px", objectFit: "cover" }}
-                    src={obj.pictureData ?? defaultPicture}
+                    src={obj.Image ?? defaultPicture}
                     alt="Card image cap"
                   />
                   <div className="card-body">
-                    <h5 className="card-title mb-4 card_overflow-3">{obj.title}</h5>
+                    <h5 className="card-title mb-4 card_overflow-3">{obj.Title}</h5>
                     <div className=" d-flex w-100 justify-content-between flex-wrap">
-                      <Link to={`/posts/${obj.Id}`} className="btn btn-primary fw-semibold">
+                      <Link to={`/posts/${obj._id}`} className="btn btn-primary fw-semibold">
                         See Full Post
                       </Link>
                       <AuthenticatedTemplate>
                         <div className="btn-group" role="group" aria-label="update or delete post">
                           <Link
-                            to={`/posts/update/${obj.Id}`}
+                            to={`/posts/update/${obj._id}`}
                             className="btn btn-warning fw-semibold text-white update-btn"
                           >
                             Update
@@ -101,7 +100,7 @@ const PostArchive = () => {
                             type="button"
                             className="btn btn-danger fw-semibold"
                             data-bs-toggle="modal"
-                            data-bs-target={`#post-${obj.Id}`}
+                            data-bs-target={`#post-${obj._id}`}
                           >
                             Delete
                           </button>
@@ -114,7 +113,7 @@ const PostArchive = () => {
                 {/* attached modal for deletion */}
                 <div
                   className="modal fade"
-                  id={`post-${obj.Id}`}
+                  id={`post-${obj._id}`}
                   tabIndex="-1"
                   aria-labelledby="exampleModalLabel"
                   aria-hidden="true"
@@ -127,7 +126,7 @@ const PostArchive = () => {
                       </div>
                       <div className="modal-body">
                         <p>
-                          Post title: <span className=" fw-semibold">{obj.title}</span>
+                          Post title: <span className=" fw-semibold">{obj.Title}</span>
                         </p>
                         {obj.pictureData && <img className="" src={obj.pictureData} />}
                       </div>
@@ -139,7 +138,7 @@ const PostArchive = () => {
                           type="button"
                           className="btn btn-danger"
                           data-bs-dismiss="modal"
-                          onClick={() => handleDelete(obj.Id)}
+                          onClick={() => handleDelete(obj._id)}
                         >
                           Delete
                         </button>

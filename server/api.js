@@ -11,7 +11,7 @@ router.get("/posts", async (req, res) => {
     res.send(articles);
   } catch (e) {
     console.error(e);
-    res.send({ error: "Servers are down. Try again later." });
+    res.status(500).send({ error: "Servers are down. Try again later." });
   }
 });
 
@@ -24,7 +24,7 @@ router.get("/posts/recent", async ({ query }, res) => {
     res.send(articles);
   } catch (e) {
     console.error(e);
-    res.send({ error: "Servers are down. Try again later." });
+    res.status(500).send({ error: "Servers are down. Try again later." });
   }
 });
 
@@ -36,7 +36,7 @@ router.get("/posts/:id", async ({ params }, res) => {
     res.send(article);
   } catch (e) {
     console.error(e);
-    res.send({ error: "Servers are down. Try again later." });
+    res.status(500).send({ error: "Servers are down. Try again later." });
   }
 });
 
@@ -48,7 +48,7 @@ router.delete("/posts/delete/:id", async ({ params }, res) => {
     res.send(article);
   } catch (e) {
     console.error(e);
-    res.send({ error: "Servers are down. Try again later." });
+    res.status(500).send({ error: "Servers are down. Try again later." });
   }
 });
 //create a post
@@ -60,14 +60,14 @@ router.post("/posts", async ({ body, files }, res) => {
     if (Object.keys(files).length !== 1) {
       res.send({ message: "Only one image is allowed to be submitted", error: true });
     } else if (!files.image.mimetype.startsWith("image/")) {
-      res.send({ message: "File must be of type image", error: true });
+      res.status(500).send({ message: "File must be of type image", error: true });
     }
   }
 
   const newBlog = new blogArticle({
     Title: body.title,
     Description: body.body,
-    Image: files?.image?.data ?? null,
+    Image: files?.image?.data ? `data:${files.image.mimetype};base64,${files.image.data.toString("base64")}` : null,
   });
 
   await newBlog
@@ -77,24 +77,24 @@ router.post("/posts", async ({ body, files }, res) => {
     })
     .catch((e) => {
       console.error(e);
-      res.send({ error: "Servers are down. Try again later." });
+      res.status(500).send({ error: "Servers are down. Try again later." });
     });
 });
 
 //Update post
 router.put("/posts/update/:id?", async ({ body, params, files }, res) => {
-  // to remove an image from a blog post send {requestImageRemoval: true}
-  if (!params.id || Number(params.id)) res.status(405).json({ error: "must have 'id' parameter" });
+  // to remove an image from a blog post send {delPhoto: true}
+  if (!params.id) return res.status(405).json({ error: "must have 'id' parameter" });
 
   try {
     // optionally add the paramaters to the update object and return the new document instance
     const article = await blogArticle.findByIdAndUpdate(
       params.id,
       {
-        ...(body?.title && { Title: body.title }),
-        ...(body?.body && { Description: body.body }),
-        ...((files?.image?.data || body.requestImageRemoval) && {
-          Image: body.requestImageRemoval ? null : files.image.data,
+        ...(body?.Title && { Title: body.Title }),
+        ...(body?.Description && { Description: body.Description }),
+        ...((files?.image?.data || body.delPhoto) && {
+          Image: body.delPhoto ? null : `data:${files.image.mimetype};base64,${files.image.data.toString("base64")}`,
         }),
       },
       {
@@ -104,7 +104,7 @@ router.put("/posts/update/:id?", async ({ body, params, files }, res) => {
     res.send(article);
   } catch (e) {
     console.error(e);
-    res.send({ error: "Servers are down. Try again later." });
+    res.status(500).send({ error: "Servers are down. Try again later." });
   }
 });
 

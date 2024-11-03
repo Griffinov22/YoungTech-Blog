@@ -47,8 +47,8 @@ const Create = () => {
         },
         { headers: { "Content-Type": "multipart/form-data" } }
       ).then((result) => {
-        // backend is configured to return true is successful
-
+        // reset image input if file provided
+        document.getElementById("imageInput").value = null;
         if (!result.data.error) {
           showSuccess();
         }
@@ -71,10 +71,7 @@ const Create = () => {
     <div className="container container_row-gap position-relative">
       <h1 className=" fw-bolder">Create Post</h1>
       <div
-        className={
-          "alert alert-success position-absolute text-nowrap start-0 end-0 mx-auto " +
-          (success ? "" : "fade")
-        }
+        className={"alert alert-success position-absolute text-nowrap start-0 end-0 mx-auto " + (success ? "" : "fade")}
         style={{ width: "min-content" }}
         role="alert"
       >

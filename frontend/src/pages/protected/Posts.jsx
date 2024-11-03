@@ -42,22 +42,19 @@ const Posts = () => {
           </thead>
           <tbody>
             {blogPosts.map((post, ind) => {
-              // prefer to show the updated date or default to the date the post was initially created
-              let postDate = post.dateUpdated ?? post.dateCreated;
-
               return (
                 <tr key={ind} className="row-ellipsis-3">
                   <td className=" border-end">
                     <p className=" fw-bold">{post.Id}</p>
                   </td>
                   <td>
-                    <p>{post.title}</p>
+                    <p>{post.Title}</p>
                   </td>
                   <td>
-                    <p>{post.body}</p>
+                    <p>{post.Description}</p>
                   </td>
                   <td>
-                    <p>{formatDate(postDate)}</p>
+                    <p>{formatDate(post.Date)}</p>
                   </td>
                   <td>
                     <p>{post.pictureName}</p>

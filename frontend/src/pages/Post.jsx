@@ -16,7 +16,7 @@ const Post = () => {
     Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/${id}`)
       .then((res) => {
         // split the body information into array of strings by one or more line break or carriage return
-        const paragraphs = res.data.body.split(/[(\n)|(\r)]+/);
+        const paragraphs = res.data.Description.split(/[(\n)|(\r)]+/);
         const formattedData = paragraphs.map((paragraph, ind) => {
           return (
             <p className="body-text" style={{ whiteSpace: "pre-line" }} key={ind}>
@@ -40,16 +40,14 @@ const Post = () => {
 
       {Object.keys(postData).length > 0 ? (
         <>
-          {postData.pictureData && (
+          {postData.Image && (
             <div className="post-image-container">
-              <img src={postData.pictureData} className="post-image" />
+              <img src={postData.Image} className="post-image" />
             </div>
           )}
-          <h1 className="text-center my-5">{postData.title}</h1>
+          <h1 className="text-center my-5">{postData.Title}</h1>
           <div className="w-100">
-            <p className="text-end fw-semibold text-muted mb-0 p-0">
-              {postData.dateUpdated ? formatDate(postData.dateUpdated) : formatDate(postData.dateCreated)}
-            </p>
+            <p className="text-end fw-semibold text-muted mb-0 p-0">{formatDate(postData.Date)}</p>
             <p className="text-end fw-semibold text-muted mb-5">By: Griffin Overmyer</p>
           </div>
           <div className="mb-5 mx-auto body-text-parent">{postData.body}</div>

@@ -13,9 +13,7 @@ const Landing = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    Axios.post(`${import.meta.env.VITE_BASE_URL}/posts/recent`, {
-      amount: import.meta.env.VITE_RECENT_AMOUNT,
-    })
+    Axios.get(`${import.meta.env.VITE_BASE_URL}/posts/recent?amount=${import.meta.env.VITE_RECENT_AMOUNT}`)
       .then((res) => {
         if (!res.data.error) {
           setRecentPosts(res.data);
@@ -36,12 +34,12 @@ const Landing = () => {
         <img
           className="card-img-top"
           style={{ height: "130px", objectFit: "cover" }}
-          src={obj.pictureData ?? purdueArch}
+          src={obj.Image ?? purdueArch}
           alt="Card image cap"
         />
         <div className="card-body">
-          <h5 className="card-title card_overflow-2">{obj.title}</h5>
-          <Link to={`/posts/${obj.Id}`} className="btn btn-primary">
+          <h5 className="card-title card_overflow-2">{obj.Title}</h5>
+          <Link to={`/posts/${obj._id}`} className="btn btn-primary">
             See Full Post
           </Link>
         </div>

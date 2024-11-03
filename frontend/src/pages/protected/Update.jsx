@@ -6,14 +6,14 @@ import Axios from "axios";
 const Update = () => {
   const navigate = useNavigate();
   const { instance } = useMsal();
-  // param variable name: id
+  // param variable name: _id
   // statte variable name: Id
   const { id } = useParams();
   const [postData, setPostData] = useState({
-    title: "",
-    body: "",
-    Id: "",
-    pictureName: "",
+    Title: "",
+    Description: "",
+    _id: "",
+    Image: "",
     delPhoto: false,
   });
   const [success, setSuccess] = useState(false);
@@ -35,11 +35,17 @@ const Update = () => {
     }
   }, [instance, id]);
 
+  useEffect(() => {
+    if (readyToNavigate) {
+      navigate("/posts");
+    }
+  }, [readyToNavigate]);
+
   const handleUpdatePost = (e) => {
     e.preventDefault();
 
     // gather data
-    const { title, body, Id, delPhoto, pictureName } = postData;
+    const { Title, Description, _id, delPhoto } = postData;
     const imageInput = e.target.imageInput.files;
     let hasImage = false;
 
@@ -50,15 +56,13 @@ const Update = () => {
       throw Error("too many images were provided");
     }
 
-    if (title && body && Id) {
-      Axios.post(
-        `${import.meta.env.VITE_BASE_URL}/posts/update/${Id}`,
+    if (Title && Description && _id) {
+      Axios.put(
+        `${import.meta.env.VITE_BASE_URL}/posts/update/${_id}`,
         {
-          title,
-          body,
-          Id,
+          Title,
+          Description,
           delPhoto,
-          pictureName,
           ...(hasImage && { image: imageInput[0] }),
         },
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -66,7 +70,8 @@ const Update = () => {
         // backend is configured to return true is successful
 
         if (!result.data.error) {
-          setPostData({ title: "", body: "", Id: "" });
+          setPostData({ Title: "", Description: "", _id: "", Image: "" });
+          document.getElementById("imageInput").value = null;
           showSuccess();
         }
       });
@@ -77,11 +82,12 @@ const Update = () => {
     setSuccess(true);
     setTimeout(() => {
       setSuccess(false);
-    }, 3000);
+    }, 2000);
     //   wait one second before redirect
     setTimeout(() => {
+      // reset the input element
       setReadyToNavigate(true);
-    }, 1000);
+    }, 2000);
   };
 
   return (
@@ -102,8 +108,8 @@ const Update = () => {
               ID
             </label>
 
-            <input disabled type="text" name="Id" id="Id" className="form-control fw-medium" value={postData.Id} />
-            <input type="hidden" name="Id" id="Id" className="form-control fw-medium" value={postData.Id} />
+            <input disabled type="text" name="Id" id="Id" className="form-control fw-medium" value={postData._id} />
+            <input type="hidden" name="Id" id="Id" className="form-control fw-medium" value={postData._id} />
           </div>
           <div className="mb-3">
             <label htmlFor="title" className="fw-semibold fs-5 d-block form-label">
@@ -115,8 +121,8 @@ const Update = () => {
               name="title"
               id="title"
               className="form-control fw-medium"
-              value={postData.title}
-              onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
+              value={postData.Title}
+              onChange={(e) => setPostData((prev) => ({ ...prev, Title: e.target.value }))}
             />
           </div>
           <div className="mb-3">
@@ -124,11 +130,9 @@ const Update = () => {
               <label htmlFor="imageInput" className="fw-semibold fs-5 d-block form-label">
                 Overwrite an image
               </label>
-              {postData.pictureData && postData.pictureName && (
+              {postData.Image && (
                 <>
-                  <span className=" fs-6 fw-bold fst-italic text-primary">{postData.pictureName}</span>
-
-                  <img src={postData.pictureData} alt="image for article" className="update-thumbnail" />
+                  <img src={postData.Image} alt="image for article" className="update-thumbnail" />
 
                   <div className="ms-auto d-flex align-items-center column-gap-2">
                     <label htmlFor="del-photo" className="fw-semibold fs-6 p-0 m-0 text-danger d-block form-label lh-1">
@@ -158,15 +162,15 @@ const Update = () => {
               name="body"
               id="body"
               className="form-control fw-medium"
-              value={postData.body}
-              onChange={(e) => setPostData((prev) => ({ ...prev, body: e.target.value }))}
+              value={postData.Description}
+              onChange={(e) => setPostData((prev) => ({ ...prev, Description: e.target.value }))}
             ></textarea>
           </div>
           <div className="mb-3">
             <input
               type="submit"
               value="submit"
-              className={"btn " + (postData.title && postData.body ? "btn-success" : "btn-dark")}
+              className={"btn " + (postData.Title && postData.Description ? "btn-success" : "btn-dark")}
             />
           </div>
         </form>
